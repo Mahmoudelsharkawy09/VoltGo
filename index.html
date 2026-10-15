@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VoltGo – Choose a charging station</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/theme.js"></script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="VoltGo home">
+        <svg class="brand-mark" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+          <path d="M13.5 2 5 13.5h6L10 22l9-12h-6.2z" fill="currentColor"/>
+        </svg>
+        <span>VoltGo</span>
+      </a>
+      <div class="header-right">
+        <span class="header-note">Low-voltage EV charging</span>
+        <button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch to night mode" aria-pressed="false">
+          <svg class="icon-moon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+            <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" fill="currentColor"/>
+          </svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+            <circle cx="12" cy="12" r="4.2" fill="currentColor"/>
+            <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"
+                  stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+          <span class="label-night">Night</span><span class="label-light">Light</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="intro">
+      <h1>Choose a charging station</h1>
+      <p class="intro-sub" id="summary"></p>
+    </section>
+
+    <!-- Cards are created by js/home.js from the list in js/stations.js -->
+    <section class="stations" id="stations" aria-label="Charging stations"></section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      Graduation project prototype. Station readings, camera and payments are simulated.
+    </div>
+  </footer>
+
+  <script src="js/stations.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>
