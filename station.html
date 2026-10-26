@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VoltGo – Station</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/theme.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="index.html" aria-label="VoltGo home">
+          <svg
+            class="brand-mark"
+            viewBox="0 0 24 24"
+            width="22"
+            height="22"
+            aria-hidden="true"
+          >
+            <path d="M13.5 2 5 13.5h6L10 22l9-12h-6.2z" fill="currentColor" />
+          </svg>
+          <span>VoltGo</span>
+        </a>
+        <div class="header-right">
+          <a class="back-link" href="index.html">&larr; All stations</a>
+          <button
+            type="button"
+            class="theme-toggle"
+            id="themeToggle"
+            aria-label="Switch to night mode"
+            aria-pressed="false"
+          >
+            <svg
+              class="icon-moon"
+              viewBox="0 0 24 24"
+              width="16"
+              height="16"
+              aria-hidden="true"
+            >
+              <path
+                d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"
+                fill="currentColor"
+              />
+            </svg>
+            <svg
+              class="icon-sun"
+              viewBox="0 0 24 24"
+              width="16"
+              height="16"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="4.2" fill="currentColor" />
+              <path
+                d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              />
+            </svg>
+            <span class="label-night">Night</span
+            ><span class="label-light">Light</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <!-- Shown when the ?id= in the address does not match any station -->
+      <section id="notFound" class="notice-block" hidden>
+        <h1>Station not found</h1>
+        <p>
+          That station does not exist.
+          <a href="index.html">Go back to the station list.</a>
+        </p>
+      </section>
+
+      <div id="stationView" hidden>
+        <div class="station-head">
+          <div>
+            <p class="eyebrow" id="stId"></p>
+            <h1 id="stName"></h1>
+            <p class="muted" id="stLocation"></p>
+          </div>
+          <span class="status" id="stStatus"></span>
+        </div>
+
+        <div class="layout">
+          <!-- LEFT: readings and camera -->
+          <div class="col">
+            <section class="card">
+              <h2 class="card-title">
+                Live readings <span class="tag">simulated</span>
+              </h2>
+              <div class="readings">
+                <div class="reading">
+                  <span class="reading-label">Voltage</span>
+                  <span class="reading-value"
+                    ><span id="rdVoltage">–</span><small>V</small></span
+                  >
+                </div>
+                <div class="reading">
+                  <span class="reading-label">Current</span>
+                  <span class="reading-value"
+                    ><span id="rdCurrent">–</span><small>A</small></span
+                  >
+                </div>
+                <div class="reading">
+                  <span class="reading-label">Power</span>
+                  <span class="reading-value"
+                    ><span id="rdPower">–</span><small>W</small></span
+                  >
+                </div>
+              </div>
+              <p class="muted small" id="ratedLine"></p>
+            </section>
+
+            <section class="card">
+              <h2 class="card-title">
+                Live station view <span class="tag">camera preview</span>
+              </h2>
+              <div class="module-scene" id="camera" aria-label="Live camera preview with a CSS 3D station illustration">
+                <video id="cameraFeed" class="camera-feed" autoplay muted playsinline hidden></video>
+                <div class="module-glow"></div>
+                <div class="module-model">
+                  <span class="module-logo">V<span>G</span></span>
+                  <span class="module-bolt">ϟ</span>
+                  <span class="module-light"></span>
+                  <span class="module-slot"></span>
+                </div>
+                <div class="module-floor"></div>
+                <div class="camera-message" id="cameraMessage">Camera preview is off · 3D station illustration</div>
+              </div>
+              <button type="button" class="btn btn--ghost camera-toggle" id="cameraToggle">Turn on camera preview</button>
+              <p class="muted small camera-help" id="cameraHelp">Camera stays off until you allow access in your browser.</p>
+            </section>
+          </div>
+
+          <!-- RIGHT: charging panel. Only one of the three blocks is visible at a time.
+             On phones this column is shown first (see .col--main in the CSS). -->
+          <div class="col col--main">
+            <!-- 1. Choose amount, pay, start -->
+            <section class="card" id="setupBlock">
+              <h2 class="card-title">Start a charging session</h2>
+
+              <p class="notice notice--off" id="offlineNotice" hidden>
+                This station is offline, so charging is not available.
+              </p>
+
+              <div class="step">
+                <span class="step-num">1</span>
+                <span class="step-title">Choose how to buy</span>
+              </div>
+              <div
+                class="segmented"
+                role="group"
+                aria-label="Charging selection"
+              >
+                <button
+                  type="button"
+                  class="seg is-active"
+                  id="modeEgp"
+                  aria-pressed="true"
+                >
+                  Money (EGP)
+                </button>
+                <button
+                  type="button"
+                  class="seg"
+                  id="modeKwh"
+                  aria-pressed="false"
+                >
+                  Energy (kWh)
+                </button>
+              </div>
+
+              <label class="field" for="amountInput">
+                <span class="field-label" id="amountLabel">Amount in EGP</span>
+                <span class="field-box">
+                  <input
+                    id="amountInput"
+                    type="number"
+                    inputmode="decimal"
+                    min="0"
+                    step="any"
+                    placeholder="0"
+                  />
+                  <span class="field-unit" id="amountUnit">EGP</span>
+                </span>
+              </label>
+
+              <div class="chips" id="presets"></div>
+              <p class="error" id="amountError" hidden></p>
+
+              <dl class="summary-list">
+                <div>
+                  <dt>Energy</dt>
+                  <dd id="pvKwh">–</dd>
+                </div>
+                <div>
+                  <dt>Price</dt>
+                  <dd id="pvEgp">–</dd>
+                </div>
+                <div>
+                  <dt>Rate</dt>
+                  <dd id="pvRate">–</dd>
+                </div>
+                <div>
+                  <dt>Estimated time</dt>
+                  <dd id="pvTime">–</dd>
+                </div>
+              </dl>
+
+              <div class="step">
+                <span class="step-num">2</span>
+                <span class="step-title">Pay</span>
+              </div>
+              <button
+                type="button"
+                class="btn btn--primary"
+                id="payBtn"
+                disabled
+              >
+                Pay (simulated)
+              </button>
+              <p class="muted small" id="payNote">
+                Demo payment only. No real money is charged.
+              </p>
+              <p class="notice notice--ok" id="paidNotice" hidden></p>
+
+              <div class="step">
+                <span class="step-num">3</span>
+                <span class="step-title">Charge</span>
+              </div>
+              <button type="button" class="btn btn--go" id="startBtn" disabled>
+                Start charging
+              </button>
+              <button type="button" class="link-btn" id="cancelBtn" hidden>
+                Cancel and refund (simulated)
+              </button>
+            </section>
+
+            <!-- 2. Live charging -->
+            <section class="card" id="liveBlock" hidden>
+              <h2 class="card-title">
+                Charging <span class="pulse-dot" aria-hidden="true"></span>
+              </h2>
+
+              <div class="live-grid">
+                <div class="live-item">
+                  <span class="reading-label">Energy consumed</span>
+                  <span class="live-value"
+                    ><span id="lvKwh">0.00</span><small>kWh</small></span
+                  >
+                </div>
+                <div class="live-item">
+                  <span class="reading-label">Cost so far</span>
+                  <span class="live-value"
+                    ><span id="lvCost">0.00</span><small>EGP</small></span
+                  >
+                </div>
+                <div class="live-item">
+                  <span class="reading-label">Remaining balance</span>
+                  <span class="live-value"
+                    ><span id="lvBalance">0.00</span><small>EGP</small></span
+                  >
+                </div>
+                <div class="live-item">
+                  <span class="reading-label">Session runtime</span>
+                  <span class="live-value live-value--time"
+                    ><span id="lvTime">0 min</span></span
+                  >
+                </div>
+              </div>
+
+              <div
+                class="progress"
+                role="progressbar"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-valuenow="0"
+                id="progress"
+              >
+                <div class="progress-fill" id="progressFill"></div>
+              </div>
+              <p class="muted small">
+                <span id="lvPercent">0</span>% of
+                <span id="lvTarget">0</span> kWh &middot; simulated session
+              </p>
+
+              <button type="button" class="btn btn--stop" id="stopBtn">
+                Stop charging
+              </button>
+            </section>
+
+            <!-- 3. Final summary -->
+            <section class="card" id="summaryBlock" hidden>
+              <h2 class="card-title">Session summary</h2>
+              <p class="notice notice--ok" id="endReason"></p>
+              <dl class="summary-list summary-list--big">
+                <div>
+                  <dt>Energy delivered</dt>
+                  <dd id="smKwh">–</dd>
+                </div>
+                <div>
+                  <dt>Total cost</dt>
+                  <dd id="smCost">–</dd>
+                </div>
+                <div>
+                  <dt>Amount paid</dt>
+                  <dd id="smPaid">–</dd>
+                </div>
+                <div>
+                  <dt>Unused balance returned</dt>
+                  <dd id="smRefund">–</dd>
+                </div>
+                <div>
+                  <dt>Charging time</dt>
+                  <dd id="smTime">–</dd>
+                </div>
+              </dl>
+              <p class="muted small">
+                Simulated session. No real payment or hardware was involved.
+              </p>
+              <div class="btn-row">
+                <button type="button" class="btn btn--primary" id="newBtn">
+                  New session
+                </button>
+                <a class="btn btn--ghost" href="index.html">All stations</a>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="js/stations.js"></script>
+    <script src="js/station.js"></script>
+  </body>
+</html>
