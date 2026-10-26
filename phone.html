@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Phone charging · VoltGo</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/theme.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="index.html" aria-label="VoltGo home">
+          <svg class="brand-mark" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M13.5 2 5 13.5h6L10 22l9-12h-6.2z" fill="currentColor" /></svg>
+          <span>VoltGo</span>
+        </a>
+        <div class="header-right">
+          <a class="back-link" href="index.html">&larr; All services</a>
+          <button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch to night mode" aria-pressed="false">
+            <svg class="icon-moon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" fill="currentColor" /></svg>
+            <svg class="icon-sun" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor" /><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+            <span class="label-night">Night</span><span class="label-light">Light</span>
+          </button>
+        </div>
+      </div>
+    </header>
+    <main class="container phone-main">
+      <section id="phoneNotFound" class="notice-block" hidden><h1>Service not found</h1><p><a href="index.html">Go back to VoltGo services.</a></p></section>
+      <div id="phoneView" hidden>
+        <div class="station-head"><div><p class="eyebrow" id="phoneId"></p><h1 id="phoneName"></h1><p class="muted" id="phoneLocation"></p></div><span class="status status--available">Available</span></div>
+        <div class="phone-layout">
+          <section class="card phone-visual-card">
+            <h2 class="card-title">Charging station <span class="tag">CSS 3D illustration</span></h2>
+            <div class="phone-scene" id="phoneScene"><div class="phone-scene-glow"></div><div class="phone-station-model"><span class="phone-model-logo">VG</span><span class="phone-model-icon" id="phoneModelIcon"></span><span class="phone-model-light"></span><span class="phone-model-base"></span></div><div class="phone-scene-floor"></div></div>
+            <p class="muted small">Simulated service · no real phone or charging hardware is controlled.</p>
+          </section>
+          <section class="card phone-control-card">
+            <div id="phoneSetup">
+              <h2 class="card-title">Set up a charging session</h2>
+              <div class="step"><span class="step-num">1</span><span class="step-title" id="portHeading">Choose an available port</span></div>
+              <div class="phone-port-list" id="phonePorts"></div>
+              <div class="step"><span class="step-num">2</span><span class="step-title">Choose a time package</span></div>
+              <div class="phone-package-list" id="phonePackages"></div>
+              <dl class="summary-list phone-price"><div><dt>Session time</dt><dd id="phoneTimeChoice">30 min</dd></div><div><dt>Price</dt><dd id="phonePrice">18 EGP</dd></div></dl>
+              <button type="button" class="btn btn--primary" id="phonePay">Pay 18 EGP (simulated)</button>
+              <p class="muted small phone-footnote" id="phonePayNote">Demo payment only. No real money is charged.</p>
+              <p class="notice notice--ok" id="phonePaidNotice" hidden></p>
+              <button type="button" class="btn btn--go" id="phoneStart" disabled>Start charging</button>
+            </div>
+            <div id="phoneSession" hidden>
+              <h2 class="card-title">Phone charging <span class="pulse-dot" id="phonePulse" hidden></span></h2>
+              <div class="phone-session-state" id="phoneSessionState">Paid · ready to start</div>
+              <div class="phone-stats"><div><span>Duration</span><strong id="phoneElapsed">00:00</strong></div><div><span>Purchased time</span><strong id="phoneLimit">30 min</strong></div></div>
+              <div class="progress phone-progress"><div class="progress-fill" id="phoneProgress"></div></div>
+              <p class="muted small" id="phoneSessionNote">Start the session when you’re ready.</p>
+              <button type="button" class="btn btn--stop" id="phoneStop" disabled>Stop session</button>
+              <a href="index.html" class="btn btn--ghost phone-back">All services</a>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+    <script src="js/stations.js"></script>
+    <script src="js/phone.js"></script>
+  </body>
+</html>

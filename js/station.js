@@ -24,6 +24,13 @@ function formatDuration(hours) {
   return Math.floor(minutes / 60) + " h " + (minutes % 60) + " min";
 }
 
+function formatClock(seconds) {
+  const wholeSeconds = Math.max(0, Math.floor(seconds));
+  const minutes = Math.floor(wholeSeconds / 60);
+  const remainder = wholeSeconds % 60;
+  return String(minutes).padStart(2, "0") + ":" + String(remainder).padStart(2, "0");
+}
+
 // ---------- Find the station from the address (?id=VG-01) ----------
 const params = new URLSearchParams(location.search);
 const station = STATIONS.find((s) => s.id === params.get("id"));
@@ -37,6 +44,7 @@ const state = {
   paid: false,
   charging: false,
   consumed: 0,     // kWh delivered so far
+  modeledSeconds: 0,
   timer: null,
 };
 
@@ -69,8 +77,6 @@ function init() {
     $("amountInput").disabled = true;
     $("modeEgp").disabled = true;
     $("modeKwh").disabled = true;
-    $("cameraText").textContent = "Camera offline";
-    $("camera").classList.add("is-off");
   }
 
   renderPresets();
@@ -79,9 +85,19 @@ function init() {
 }
 
 // =====================================================
-// Readings (SIMULATED)
+// Readings (SIMULATED): smooth readings are used by both the display and meter.
 // =====================================================
-function showReadings() {
+function sampleReadings(elapsedSeconds = 0) {
+  if (isOffline) return { volts: 0, amps: 0, powerKw: 0 };
+  if (!state.charging) return { volts: station.voltage, amps: 0, powerKw: 0 };
+
+  // Small, gradual changes around the rated values. Values stay correlated.
+  const volts = station.voltage * (1 + 0.004 * Math.sin(elapsedSeconds * 0.019));
+  const amps = station.current * (1 + 0.018 * Math.sin(elapsedSeconds * 0.013 + 0.7));
+  return { volts, amps, powerKw: volts * amps / 1000 };
+}
+
+function showReadings(readings = sampleReadings(state.modeledSeconds)) {
   if (isOffline) {
     $("rdVoltage").textContent = "–";
     $("rdCurrent").textContent = "–";
@@ -89,18 +105,9 @@ function showReadings() {
     return;
   }
 
-  let volts = station.voltage;
-  let amps = 0; // idle: nothing is flowing
-
-  if (state.charging) {
-    // small random wobble so the numbers feel alive
-    volts += (Math.random() - 0.5) * 0.6;
-    amps = station.current + (Math.random() - 0.5) * 0.4;
-  }
-
-  $("rdVoltage").textContent = volts.toFixed(1);
-  $("rdCurrent").textContent = amps.toFixed(1);
-  $("rdPower").textContent = Math.round(volts * amps);
+  $("rdVoltage").textContent = readings.volts.toFixed(1);
+  $("rdCurrent").textContent = readings.amps.toFixed(1);
+  $("rdPower").textContent = Math.round(readings.volts * readings.amps);
 }
 
 // =====================================================
@@ -233,6 +240,7 @@ function startCharging() {
 
   state.charging = true;
   state.consumed = 0;
+  state.modeledSeconds = 0;
   state.startedAt = Date.now();
 
   $("setupBlock").hidden = true;
@@ -244,17 +252,26 @@ function startCharging() {
 }
 
 function tick() {
-  // energy (kWh) = power (kW) x time (h); time is sped up by SIM_SPEED
-  const hours = (TICK_MS / 3600000) * SIM_SPEED;
-  state.consumed += powerKw * hours;
+  // Integrate displayed voltage × current over simulated time, in kWh.
+  const deltaSeconds = (TICK_MS / 1000) * SIM_SPEED;
+  const nextSeconds = state.modeledSeconds + deltaSeconds;
+  const readings = sampleReadings(nextSeconds);
+  const energyAdded = readings.powerKw * deltaSeconds / 3600;
+  const energyRemaining = state.request.kwh - state.consumed;
 
-  if (state.consumed >= state.request.kwh) {
+  if (energyAdded >= energyRemaining) {
+    // Use only the fraction of this tick needed to reach the purchased limit.
+    state.modeledSeconds += energyRemaining / readings.powerKw * 3600;
     state.consumed = state.request.kwh;
-    updateLive();
+    updateLive(readings);
     finish("Charging finished: the amount you paid for was delivered.");
     return;
   }
-  updateLive();
+
+  state.modeledSeconds = nextSeconds;
+  state.consumed += energyAdded;
+
+  updateLive(readings);
 }
 
 function costSoFar() {
@@ -262,18 +279,20 @@ function costSoFar() {
   return Math.min(round2(state.consumed * station.pricePerKwh), state.request.egp);
 }
 
-function updateLive() {
+function updateLive(readings) {
   const cost = costSoFar();
   const percent = Math.min(100, (state.consumed / state.request.kwh) * 100);
 
   $("lvKwh").textContent = fmt(state.consumed);
   $("lvCost").textContent = fmt(cost);
   $("lvBalance").textContent = fmt(state.request.egp - cost);
+  // Runtime is wall-clock time for this accelerated demo session.
+  $("lvTime").textContent = formatClock((Date.now() - state.startedAt) / 1000);
   $("lvPercent").textContent = Math.round(percent);
   $("progressFill").style.width = percent + "%";
   $("progress").setAttribute("aria-valuenow", Math.round(percent));
 
-  showReadings();
+  showReadings(readings);
 }
 
 function finish(reason) {
@@ -288,7 +307,7 @@ function finish(reason) {
   $("smCost").textContent = fmt(cost) + " EGP";
   $("smPaid").textContent = fmt(state.request.egp) + " EGP";
   $("smRefund").textContent = fmt(state.request.egp - cost) + " EGP (simulated)";
-  $("smTime").textContent = formatDuration(state.consumed / powerKw);
+  $("smTime").textContent = formatClock((Date.now() - state.startedAt) / 1000);
 
   $("liveBlock").hidden = true;
   $("summaryBlock").hidden = false;
@@ -323,5 +342,55 @@ $("cancelBtn").addEventListener("click", cancelPayment);
 $("startBtn").addEventListener("click", startCharging);
 $("stopBtn").addEventListener("click", () => finish("Charging stopped by you."));
 $("newBtn").addEventListener("click", newSession);
+
+// Camera preview starts only after an explicit click and browser permission.
+let cameraStream = null;
+$("cameraToggle").addEventListener("click", async () => {
+  const button = $("cameraToggle");
+  const video = $("cameraFeed");
+  const help = $("cameraHelp");
+  if (cameraStream) {
+    cameraStream.getTracks().forEach((track) => track.stop());
+    cameraStream = null;
+    video.srcObject = null;
+    video.hidden = true;
+    $("camera").classList.remove("is-live");
+    $("cameraMessage").textContent = "Camera preview is off · 3D station illustration";
+    button.textContent = "Turn on camera preview";
+    help.textContent = "Camera stays off until you allow access in your browser.";
+    return;
+  }
+
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    help.textContent = "Live camera is not available in this browser or page context. Open the site on localhost or HTTPS.";
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = "Waiting for camera permission…";
+  try {
+    cameraStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+    video.srcObject = cameraStream;
+    video.hidden = false;
+    $("camera").classList.add("is-live");
+    $("cameraMessage").textContent = "LIVE CAMERA PREVIEW · 3D station illustration";
+    button.textContent = "Turn off camera preview";
+    help.textContent = "Live preview only. The camera feed is not recorded or analyzed.";
+  } catch (error) {
+    const messages = {
+      NotAllowedError: "Camera access was denied. Allow it in your browser settings to use the live preview.",
+      NotFoundError: "No camera was found on this device.",
+      NotReadableError: "The camera is busy in another app. Close that app and try again.",
+    };
+    help.textContent = messages[error.name] || "The camera could not be started. Check browser permissions and try again.";
+    button.textContent = "Try camera again";
+  } finally {
+    button.disabled = false;
+  }
+});
+
+window.addEventListener("pagehide", () => {
+  if (cameraStream) cameraStream.getTracks().forEach((track) => track.stop());
+});
 
 init();

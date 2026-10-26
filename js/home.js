@@ -5,25 +5,41 @@ const summary = document.getElementById("summary");
 
 function createCard(station, index) {
   const card = document.createElement("a");
-  card.className = "station-card is-" + station.status;
-  card.href = "station.html?id=" + encodeURIComponent(station.id);
+  card.className = "station-card is-" + station.status + " is-service-" + (station.type || "ev");
+  card.href = (station.type === "wired" || station.type === "wireless" ? "phone.html" : "station.html") + "?id=" + encodeURIComponent(station.id);
   card.style.setProperty("--i", index); // used for the staggered entrance animation
+  const serviceLabel = station.type === "wired" ? "USB PHONE CHARGING" : station.type === "wireless" ? "WIRELESS PHONE CHARGING" : "EV CHARGING";
+  const spec = station.type === "wired" || station.type === "wireless"
+    ? (station.type === "wired" ? "USB-C" : "Qi") + " · " + Math.round(station.powerKw * 1000) + " W"
+    : station.voltage + " V · " + station.current + " A";
+  const serviceIcon = station.type === "wired" ? "⌁" : station.type === "wireless" ? "◎" : "ϟ";
 
   card.innerHTML = `
     <div class="card-top">
-      <span class="card-id">${station.id}</span>
+      <span class="card-id">${station.id} · ${serviceLabel}</span>
       <span class="status status--${station.status}">${STATUS_LABELS[station.status]}</span>
     </div>
 
     <h2 class="card-name">${station.name}</h2>
     <p class="card-location">${station.location}</p>
 
-    <div class="energy" aria-hidden="true">
-      <div class="energy-fill"></div>
+    <div class="charger-stage" aria-hidden="true">
+      <div class="charger-glow"></div>
+      <div class="charger-model">
+        <div class="charger-face">
+          <span class="charger-logo">V<span>G</span></span>
+          <span class="charger-bolt">${serviceIcon}</span>
+          <span class="charger-light"></span>
+          <span class="charger-slot"></span>
+        </div>
+        <div class="charger-side"></div>
+        <div class="charger-foot"></div>
+      </div>
+      <div class="charger-floor"></div>
     </div>
 
     <div class="card-foot">
-      <span class="card-spec">${station.voltage} V &middot; ${station.current} A</span>
+      <span class="card-spec">${spec}</span>
       <span class="card-go">${station.status === "offline" ? "View" : "Select"} &rarr;</span>
     </div>
   `;

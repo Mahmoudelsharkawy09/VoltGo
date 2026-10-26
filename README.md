@@ -1,68 +1,42 @@
-# VoltGo
+# VoltGo – low-voltage EV charging prototype
 
-A simple, responsive website for a low-voltage EV charging system. Built as a graduation project prototype with plain HTML, CSS and JavaScript. No frameworks, no build step, nothing to install.
+A small website for a graduation project. Plain HTML, CSS and JavaScript. No frameworks, no build step, no installs. Home cards cover EV, wired phone and wireless phone charging.
 
-> **Important:** everything in this prototype is **simulated**. The station readings, the camera preview and the payment are demo code. No real payment is taken and no real charger is controlled.
-
-## Features
-
-**Home page**
-- One tall card per charging station, showing its ID, availability status and an animated energy bar.
-- Smooth hover effects and a staggered entrance animation.
-- Clicking a card opens that station's details page.
-
-**Station details page**
-- Station name, ID and online/offline status.
-- Simulated voltage, current and power readings.
-- Camera preview placeholder.
-- Choose charging by money (EGP) or energy (kWh). The other value and the price are calculated automatically.
-- Simulated payment. After it succeeds, Start Charging is enabled.
-- During charging: consumed energy, cost, remaining balance, progress bar and a Stop button.
-- Final session summary with energy delivered, total cost and unused balance.
-
-**General**
-- Works on phones and desktop.
-- Light mode by default, with a Night mode switch that remembers your choice.
+**Charging and payments are demos.** EV readings are simulated; phone sessions use a demo timer; no charger is controlled and no real payment is taken. The optional camera preview uses the camera available to this browser after permission is granted. It does not connect to a station-mounted camera, record, or analyze video.
 
 ## Run it
 
-1. Download or clone this repository.
-2. Open `index.html` in your browser.
+1. Open this project folder (`New folder`).
+2. Double-click `index.html` (it opens in your browser).
 
-Or run a small local server inside the project folder:
+That is all. The site starts in night mode; the header button switches to light mode and remembers your choice. If you prefer a local server, run `python3 -m http.server` inside the folder and open `http://localhost:8000`.
 
-```
-python3 -m http.server
-```
-
-Then open `http://localhost:8000`. (On Windows use `python` or `py` instead of `python3`.)
-
-## Project structure
+## Files
 
 ```
 voltgo/
 ├── index.html        Home page: choose a station
-├── station.html      Station details page (one page for every station)
-├── css/
-│   └── style.css     All styling. Colors are at the top (light and night)
+├── station.html      EV station details and live camera preview
+├── phone.html        Shared wired/wireless phone charging page
+├── css/style.css     All styling. Colors are at the top in :root
 └── js/
-    ├── stations.js   Station data. Edit this to add stations
+    ├── theme.js      Light / night mode switch (remembers the choice)
+    ├── stations.js   Station data (edit this to add stations)
     ├── home.js       Builds the station cards
-    ├── station.js    Readings, price calculation, payment, charging, summary
-    └── theme.js      Light / night mode switch
+    ├── station.js    EV readings, payment, session, and camera preview
+    └── phone.js      Phone ports, packages, simulated checkout, timed session
 ```
-
-`css/` and `js/` must stay next to the two HTML pages, or the pages will load without styling.
 
 ## Add a station
 
-Open `js/stations.js`, copy one station block, and change the values:
+Open `js/stations.js`, copy one station block, and change the `id`, `name` and the other values:
 
 ```js
 {
-  id: "VG-04",           // must be unique
+  id: "VG-04",
   name: "Library",
   location: "Next to the library",
+  type: "ev",
   status: "available",   // or "offline"
   voltage: 48,
   current: 10,
@@ -70,27 +44,20 @@ Open `js/stations.js`, copy one station block, and change the values:
 },
 ```
 
-Save and refresh. The new card appears on the home page and its details page works automatically.
+Save and refresh. The new card appears on the home page and its EV details page works automatically. Each `id` must be unique. Phone services use `type: "wired"` or `"wireless"`, plus `ports` and `packages` arrays; see the `USB-01` and `PAD-01` examples in `js/stations.js`.
 
-## Settings you can change
+## Change settings
 
-| What | Where |
-| --- | --- |
-| Price per kWh | `pricePerKwh` for each station in `js/stations.js` |
-| Minimum / maximum session, preset buttons, demo speed | the settings at the top of `js/station.js` |
-| Colors (light and night) | the variables at the top of `css/style.css` |
-
-`SIM_SPEED` in `js/station.js` makes the demo run faster than real time, so a session finishes in seconds. If you raise the preset EGP buttons, keep them within `MAX_KWH` multiplied by the price per kWh.
+- **Price:** `pricePerKwh` for each station in `js/stations.js`.
+- **Session limits, preset buttons, demo speed:** the settings at the top of `js/station.js`. The estimate uses requested energy and rated station power. During an EV session, simulated voltage and current vary smoothly around station ratings; displayed power and delivered energy use those same readings. `SIM_SPEED` makes demo progress faster than real time. “Session runtime” is wall-clock time for the demo. Phone package timers use wall-clock time.
+- **Colors:** the variables at the top of `css/style.css`. Light colors are in `:root`, night colors are in `:root[data-theme="dark"]`.
+- **Night mode:** the site starts in night mode; the header button switches to light mode and remembers the choice in the browser.
 
 ## Connecting real hardware later
 
-The simulated parts are marked in `js/station.js`:
+The animated 3D charging columns and service station models are CSS illustrations. On an EV detail page, **Turn on camera preview** requests browser permission and shows a live local camera preview beside the illustration. The feed is not recorded or analyzed. The simulated parts are clearly marked in `js/station.js`:
 
-- `showReadings()`: replace the random values with real voltage and current from your device.
-- `simulatePayment()`: replace with a real payment provider. This must be done on a server, never directly in the browser.
-- `tick()`: replace the calculated energy with the real energy meter value.
-- The camera box in `station.html`: replace the placeholder with a real video stream.
-
-## Tech
-
-HTML5, CSS3 (custom properties, grid, flexbox) and vanilla JavaScript.
+- `showReadings()` – replace the smooth demo readings with real voltage and current from your device.
+- `simulatePayment()` – replace with a call to a real payment provider (done on a server, never directly in the browser).
+- `tick()` – replace the calculated energy with the real energy meter value.
+- Browser camera preview is local only. A real charger-camera system would need a supported hardware feed and appropriate backend connection.
