@@ -212,6 +212,17 @@ button, input { font: inherit; color: inherit; }
 .charger-light,.module-light { width: 17px; height: 2px; margin-top: 12px; border-radius: 2px; background: var(--green-bright); box-shadow: 0 0 9px var(--green-bright); animation: pulse 1.8s infinite; }
 .charger-slot,.module-slot { width: 20px; height: 3px; margin-top: auto; margin-bottom: 8px; border-radius: 2px; background: #050b10; box-shadow: 0 1px 0 #607783; }
 .charger-floor { position: absolute; bottom: 14px; width: 135px; height: 20px; border-bottom: 1px solid #2fc6e244; transform: rotateX(67deg); background: radial-gradient(ellipse, #2fc6e222, transparent 70%); }
+.ev-car-illustration { position: absolute; z-index: 1; left: 5%; bottom: 20px; width: min(230px, 78%); height: auto; color: var(--cyan-bright); filter: drop-shadow(0 12px 13px #0006); transform: perspective(600px) rotateY(-18deg); animation: module-float 4.5s ease-in-out infinite; }
+.ev-car-body { fill: #153341; stroke: currentColor; stroke-width: 2; stroke-linejoin: round; }
+.ev-car-window { fill: #0a1d2a; stroke: #55daf099; stroke-width: 1.5; stroke-linejoin: round; }
+.ev-car-trim { fill: none; stroke: #55daf0aa; stroke-width: 1.5; stroke-linecap: round; }
+.ev-car-wheel { fill: #08131d; stroke: #55daf0bb; stroke-width: 2; }
+.ev-car-wheel-core { fill: #274655; stroke: #55daf0aa; stroke-width: 1.5; }
+.ev-charge-port { fill: none; stroke: var(--green-bright); stroke-width: 2.5; stroke-linecap: round; }
+.ev-charge-cable { fill: none; stroke: var(--green-bright); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 3 2; }
+.is-service-ev .charger-model { z-index: 2; margin-left: 30%; transform: rotateY(-22deg) scale(.78); }
+.is-service-ev .charger-floor { margin-left: 30%; width: 100px; }
+.is-service-ev .charger-glow { margin-left: 30%; }
 .is-offline .charger-model { filter: grayscale(1); opacity: .65; }
 
 .card-foot {
@@ -317,6 +328,9 @@ button, input { font: inherit; color: inherit; }
 .camera-message { position: absolute; left: 9px; bottom: 9px; z-index: 2; padding: 5px 7px; border-radius: 4px; background: #07131ccc; color: #d8e7e8; font-size: .68rem; }
 .module-scene.is-live .module-model { width: 60px; height: 122px; position: absolute; left: 18px; bottom: 33px; transform: rotateY(-18deg) scale(.72); transform-origin: left bottom; }
 .module-scene.is-live .module-glow,.module-scene.is-live .module-floor { display: none; }
+.module-scene.is-live .module-model,.module-scene.is-live .ev-car-detail { display: none; }
+.ev-car-detail { left: 5%; bottom: 32px; width: 52%; }
+.module-scene:not(.is-live) .module-model { transform: translateX(70px) rotateY(-20deg) scale(.85); }
 .camera-toggle { margin-top: 12px; }
 .camera-help { margin-top: 7px; }
 
