@@ -14,30 +14,11 @@ function createCard(station, index) {
     : station.voltage + " V · " + station.current + " A";
   const serviceIcon = station.type === "wired" ? "⌁" : station.type === "wireless" ? "◎" : "ϟ";
   const chargingUnit = station.type === "ev" ? `
-    <div class="smart-pole" aria-label="VoltGo smart EV charging pole">
-      <div class="smart-pole-arm"><span class="smart-pole-lamp"></span></div>
-      <div class="smart-pole-shaft">
-        <span class="smart-pole-sensor"></span><span class="smart-pole-logo">VG</span>
-        <span class="smart-pole-screen"><i>●</i><b>READY</b><small>EV / 60</small></span>
-        <span class="smart-pole-bolt">ϟ</span><span class="smart-pole-port"></span>
-      </div>
-      <span class="smart-pole-cable"></span><span class="smart-pole-base"></span>
-    </div>` : `
+    <img class="ev-smart-art" src="assets/smart-pole-ev.svg" alt="Night scene: VoltGo smart streetlight pole charging an electric car via a cable on the pavement">` : `
     <div class="charger-model">
       <div class="charger-face"><span class="charger-logo">V<span>G</span></span><span class="charger-bolt">${serviceIcon}</span><span class="charger-light"></span><span class="charger-slot"></span></div>
       <div class="charger-side"></div><div class="charger-foot"></div>
     </div>`;
-  const evCar = station.type === "ev" ? `
-    <svg class="ev-car-illustration" viewBox="0 0 240 120" aria-hidden="true">
-      <path class="ev-car-body" d="M26 73 38 66l17-25c4-6 10-9 17-9h62c9 0 17 4 23 11l20 23 23 6c8 2 13 8 13 16v8H27z"/>
-      <path class="ev-car-window" d="m65 62 13-20h31v20zm52 0V42h16c6 0 11 3 15 8l11 12z"/>
-      <path class="ev-car-trim" d="M29 76h181M36 85h14m128 0h14"/>
-      <circle class="ev-car-wheel" cx="68" cy="91" r="15"/><circle class="ev-car-wheel-core" cx="68" cy="91" r="6"/>
-      <circle class="ev-car-wheel" cx="174" cy="91" r="15"/><circle class="ev-car-wheel-core" cx="174" cy="91" r="6"/>
-      <path class="ev-charge-port" d="M191 68h7m-3-4v8"/>
-      <path class="ev-charge-cable" d="M199 69c17 0 17-25 34-25"/>
-    </svg>` : "";
-
   card.innerHTML = `
     <div class="card-top">
       <span class="card-id">${station.id} · ${serviceLabel}</span>
@@ -48,8 +29,6 @@ function createCard(station, index) {
     <p class="card-location">${station.location}</p>
 
     <div class="charger-stage" aria-hidden="true">
-      <div class="charger-glow"></div>
-      ${evCar}
       ${chargingUnit}
       <div class="charger-floor"></div>
     </div>

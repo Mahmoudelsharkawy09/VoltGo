@@ -212,31 +212,11 @@ button, input { font: inherit; color: inherit; }
 .charger-light,.module-light { width: 17px; height: 2px; margin-top: 12px; border-radius: 2px; background: var(--green-bright); box-shadow: 0 0 9px var(--green-bright); animation: pulse 1.8s infinite; }
 .charger-slot,.module-slot { width: 20px; height: 3px; margin-top: auto; margin-bottom: 8px; border-radius: 2px; background: #050b10; box-shadow: 0 1px 0 #607783; }
 .charger-floor { position: absolute; bottom: 14px; width: 135px; height: 20px; border-bottom: 1px solid #2fc6e244; transform: rotateX(67deg); background: radial-gradient(ellipse, #2fc6e222, transparent 70%); }
-.ev-car-illustration { position: absolute; z-index: 1; left: 5%; bottom: 20px; width: min(230px, 78%); height: auto; color: var(--cyan-bright); filter: drop-shadow(0 12px 13px #0006); transform: perspective(600px) rotateY(-18deg); animation: module-float 4.5s ease-in-out infinite; }
-.ev-car-body { fill: #153341; stroke: currentColor; stroke-width: 2; stroke-linejoin: round; }
-.ev-car-window { fill: #0a1d2a; stroke: #55daf099; stroke-width: 1.5; stroke-linejoin: round; }
-.ev-car-trim { fill: none; stroke: #55daf0aa; stroke-width: 1.5; stroke-linecap: round; }
-.ev-car-wheel { fill: #08131d; stroke: #55daf0bb; stroke-width: 2; }
-.ev-car-wheel-core { fill: #274655; stroke: #55daf0aa; stroke-width: 1.5; }
-.ev-charge-port { fill: none; stroke: var(--green-bright); stroke-width: 2.5; stroke-linecap: round; }
-.ev-charge-cable { fill: none; stroke: var(--green-bright); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 3 2; }
-.smart-pole { position: absolute; z-index: 4; left: 65%; bottom: 25px; width: 82px; height: 160px; transform-style: preserve-3d; filter: drop-shadow(0 12px 12px #0005); animation: module-float 4.5s ease-in-out infinite; }
-.smart-pole-shaft { position: absolute; left: 18px; bottom: 13px; width: 32px; height: 130px; display: flex; flex-direction: column; align-items: center; border: 1px solid #55daf0aa; border-radius: 5px 5px 2px 2px; background: linear-gradient(100deg,#102635 0%,#1a3947 46%,#0b1e2d 100%); box-shadow: inset 0 0 17px #2fc6e222,4px 5px 0 #071520; }
-.smart-pole-sensor { position: absolute; top: -8px; left: 12px; width: 6px; height: 6px; border: 1px solid #b5ed73; border-radius: 50%; background: #b5ed73; box-shadow: 0 0 8px #b5ed73aa; }
-.smart-pole-logo { margin-top: 8px; color: var(--cyan-bright); font: 6px monospace; letter-spacing: .08em; }
-.smart-pole-screen { width: 22px; height: 24px; margin-top: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; border: 1px solid #55daf066; border-radius: 2px; background: #06151f; color: #d7f8ef; }
-.smart-pole-screen i { color: var(--green-bright); font: normal 5px monospace; }
-.smart-pole-screen b { font: 5px monospace; letter-spacing: .05em; }
-.smart-pole-screen small { color: #8caeb3; font: 4px monospace; }
-.smart-pole-bolt { margin-top: 4px; color: var(--green-bright); font-size: 23px; line-height: 1; text-shadow: 0 0 9px #3ed17f99; }
-.smart-pole-port { width: 10px; height: 3px; margin-top: auto; margin-bottom: 5px; border-radius: 2px; background: #050c12; box-shadow: 0 0 4px #55daf077; }
-.smart-pole-arm { position: absolute; z-index: 2; top: 3px; left: 29px; width: 48px; height: 8px; border: 1px solid #55daf099; border-left: 0; border-radius: 2px 7px 5px 0; background: linear-gradient(90deg,#183846,#274d58); transform: skewY(-12deg); }
-.smart-pole-lamp { position: absolute; right: 1px; bottom: -3px; width: 24px; height: 3px; border-radius: 3px; background: #c8ffd4; box-shadow: 0 0 6px #8bffae,0 0 15px #3ed17f; }
-.smart-pole-cable { position: absolute; z-index: 3; left: -7px; bottom: 29px; width: 28px; height: 34px; border-left: 2px solid var(--green-bright); border-bottom: 2px solid var(--green-bright); border-radius: 0 0 0 16px; filter: drop-shadow(0 0 3px #3ed17f88); }
-.smart-pole-cable::after { content:""; position:absolute; left:-4px; bottom:-7px; width:6px; height:9px; border-radius:2px; background:#a7d8cf; box-shadow:0 0 4px #55daf0aa; }
-.smart-pole-base { position: absolute; left: 9px; bottom: 0; width: 50px; height: 15px; border: 1px solid #55daf077; border-radius: 3px 3px 5px 5px; background: linear-gradient(100deg,#132b39,#244551 55%,#102331); transform: skewX(-12deg); }
-.is-service-ev .smart-pole { left: 65%; }
-.smart-pole-detail { left: 58%; bottom: 24px; transform: scale(1.08); transform-origin: bottom left; }
+.is-service-ev .charger-stage { min-height: 205px; overflow:hidden; border-radius:9px; background:transparent; }
+.is-service-ev .charger-glow,.is-service-ev .charger-floor { display:none; }
+.ev-smart-art { display:block; width:100%; height:100%; object-fit:contain; }
+.is-service-ev .charger-stage .ev-smart-art { position:absolute; inset:0; }
+.station-card.is-offline .ev-smart-art { filter:grayscale(.8) opacity(.68); }
 .is-offline .charger-model { filter: grayscale(1); opacity: .65; }
 
 .card-foot {
@@ -329,21 +309,12 @@ button, input { font: inherit; color: inherit; }
   color: var(--ink-soft);
 }
 
-/* CSS 3D station model. It is an illustration, not a hardware preview. */
-.module-scene { position: relative; min-height: 225px; display: grid; place-items: center; overflow: hidden; border: 1px solid var(--line); border-radius: 8px; background: radial-gradient(ellipse at 50% 40%, #183748, var(--bg) 72%); color: var(--ink-soft); }
+/* EV scene illustration and optional local camera preview. */
+.module-scene { position: relative; min-height: 225px; aspect-ratio: 420 / 270; overflow: hidden; border: 1px solid var(--line); border-radius: 8px; background: transparent; color: var(--ink-soft); }
 .camera-feed { position: absolute; z-index: 0; inset: 0; width: 100%; height: 100%; object-fit: cover; background: #07131c; }
-.module-glow { position: absolute; width: 210px; height: 210px; border-radius: 50%; background: radial-gradient(circle, #2fc6e226, transparent 68%); animation: module-glow 4s ease-in-out infinite; }
-.module-model { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; width: 84px; height: 165px; transform: rotateY(-20deg); border: 1px solid #55daf088; border-radius: 9px; background: linear-gradient(90deg,#132a39,#1b3b4a 52%,#102334); box-shadow: inset 0 0 22px #2fc6e222,0 20px 35px #0006; animation: module-float 4s ease-in-out infinite; }
-.module-logo { margin-top: 13px; font-size: 9px; }
-.module-bolt { margin-top: 18px; color: var(--green-bright); font-size: 46px; line-height: 1; text-shadow: 0 0 14px #3ed17f99; }
-.module-light { width: 23px; margin-top: 13px; }
-.module-slot { width: 26px; height: 4px; margin-bottom: 11px; }
-.module-floor { position: absolute; bottom: 25px; width: 210px; height: 27px; border-bottom: 1px solid #2fc6e244; transform: rotateX(67deg); background: radial-gradient(ellipse,#2fc6e222,transparent 72%); }
+.ev-smart-art-detail { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; }
 .camera-message { position: absolute; left: 9px; bottom: 9px; z-index: 2; padding: 5px 7px; border-radius: 4px; background: #07131ccc; color: #d8e7e8; font-size: .68rem; }
-.module-scene.is-live .module-model { width: 60px; height: 122px; position: absolute; left: 18px; bottom: 33px; transform: rotateY(-18deg) scale(.72); transform-origin: left bottom; }
-.module-scene.is-live .module-glow,.module-scene.is-live .module-floor { display: none; }
-.module-scene.is-live .smart-pole,.module-scene.is-live .ev-car-detail { display: none; }
-.ev-car-detail { left: 5%; bottom: 32px; width: 52%; }
+.module-scene.is-live .ev-smart-art-detail { display:none; }
 .camera-toggle { margin-top: 12px; }
 .camera-help { margin-top: 7px; }
 

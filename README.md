@@ -18,6 +18,7 @@ voltgo/
 ├── index.html        Home page: choose a station
 ├── station.html      EV station details and live camera preview
 ├── phone.html        Shared wired/wireless phone charging page
+├── assets/smart-pole-ev.svg EV, smart pole, and ground-routed charging cable illustration
 ├── css/style.css     All styling. Colors are at the top in :root
 └── js/
     ├── theme.js      Light / night mode switch (remembers the choice)
