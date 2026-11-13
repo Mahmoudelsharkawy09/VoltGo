@@ -21,6 +21,7 @@ function initPhonePage() {
   $phone("phoneModelIcon").textContent = item.type === "wired" ? "⌁" : "◎";
   renderPorts(item);
   renderPackages(item);
+  updatePoleTelemetry();
   $phone("phonePay").addEventListener("click", payForPhoneSession);
   $phone("phoneStart").addEventListener("click", startPhoneSession);
   $phone("phoneStop").addEventListener("click", () => endPhoneSession("Session stopped by customer."));
@@ -75,6 +76,26 @@ function updatePhonePrice() {
   $phone("phonePay").textContent = "Pay " + price + " EGP (simulated)";
 }
 
+// Simulated smart-pole telemetry for the phone charging service only.
+function updatePoleTelemetry(elapsedSeconds = 0) {
+  const isWireless = requestedPhoneService.type === "wireless";
+  const elapsedMinutes = Math.max(0, elapsedSeconds) / 60;
+  const batteryUsePerMinute = isWireless ? 0.1 : 0.07;
+  const batteryPercent = Math.max(0, Math.round(86 - elapsedMinutes * batteryUsePerMinute));
+  const startingTemp = isWireless ? 30 : 29;
+  const warmingPerMinute = isWireless ? 0.1 : 0.07;
+  const smallSensorVariation = elapsedSeconds > 0 ? Math.sin(elapsedSeconds / 20) * 0.15 : 0;
+  const temperature = startingTemp + elapsedMinutes * warmingPerMinute + smallSensorVariation;
+
+  $phone("poleBatteryValue").textContent = batteryPercent + "%";
+  $phone("poleBatteryFill").style.width = batteryPercent + "%";
+  $phone("poleBatteryMeter").setAttribute("aria-valuenow", batteryPercent);
+  $phone("poleTemperatureValue").textContent = temperature.toFixed(1) + " °C";
+  $phone("poleTemperatureNote").textContent = temperature < 35
+    ? "Normal operating range"
+    : "Warm during charging · simulated";
+}
+
 function payForPhoneSession() {
   const button = $phone("phonePay");
   button.disabled = true;
@@ -113,11 +134,15 @@ function updatePhoneTimer(totalSeconds) {
   const seconds = elapsed % 60;
   $phone("phoneElapsed").textContent = String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
   $phone("phoneProgress").style.width = (elapsed / totalSeconds * 100) + "%";
+  updatePoleTelemetry(elapsed);
   return elapsed >= totalSeconds;
 }
 
 function endPhoneSession(message) {
   if (!phoneStartedAt) return;
+  const purchasedSeconds = selectedPackage ? selectedPackage.minutes * 60 : Infinity;
+  const elapsed = Math.min(purchasedSeconds, Math.floor((Date.now() - phoneStartedAt) / 1000));
+  updatePoleTelemetry(elapsed);
   window.clearInterval(phoneTimer);
   phoneTimer = null;
   $phone("phoneSessionState").textContent = "Session ended";
