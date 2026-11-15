@@ -4,9 +4,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>VoltGo</title>
-    <link rel="icon" type="image/png" sizes="192x192" href="assets/voltgo-icon.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="assets/voltgo-icon.png"
+    />
     <link rel="stylesheet" href="css/style.css" />
-    <script src="js/theme.js"></script>
   </head>
   <body>
     <header class="site-header">
@@ -14,46 +18,6 @@
         <a class="brand" href="index.html" aria-label="VoltGo home">
           <img class="brand-logo" src="assets/voltgo-logo.png" alt="" />
         </a>
-        <div class="header-right">
-          <span class="header-note">Low-voltage EV charging</span>
-          <button
-            type="button"
-            class="theme-toggle"
-            id="themeToggle"
-            aria-label="Switch to night mode"
-            aria-pressed="false"
-          >
-            <svg
-              class="icon-moon"
-              viewBox="0 0 24 24"
-              width="16"
-              height="16"
-              aria-hidden="true"
-            >
-              <path
-                d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"
-                fill="currentColor"
-              />
-            </svg>
-            <svg
-              class="icon-sun"
-              viewBox="0 0 24 24"
-              width="16"
-              height="16"
-              aria-hidden="true"
-            >
-              <circle cx="12" cy="12" r="4.2" fill="currentColor" />
-              <path
-                d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-              />
-            </svg>
-            <span class="label-night">Night</span
-            ><span class="label-light">Light</span>
-          </button>
-        </div>
       </div>
     </header>
 
@@ -78,10 +42,21 @@
           <h2 class="card-name" data-card-name></h2>
           <p class="card-location" data-card-location></p>
           <div class="charger-stage" aria-hidden="true">
-            <img class="ev-smart-art" data-ev-art src="assets/smart-pole-ev.svg" alt="Smart streetlight pole charging an electric car via a cable">
+            <img
+              class="ev-smart-art"
+              data-ev-art
+              src="assets/smart-pole-ev.svg"
+              alt="Smart streetlight pole charging an electric car via a cable"
+            />
             <div class="charger-model" data-phone-art>
-              <div class="charger-face"><span class="charger-logo">V<span>G</span></span><span class="charger-bolt" data-service-icon></span><span class="charger-light"></span><span class="charger-slot"></span></div>
-              <div class="charger-side"></div><div class="charger-foot"></div>
+              <div class="charger-face">
+                <span class="charger-logo">V<span>G</span></span
+                ><span class="charger-bolt" data-service-icon></span
+                ><span class="charger-light"></span
+                ><span class="charger-slot"></span>
+              </div>
+              <div class="charger-side"></div>
+              <div class="charger-foot"></div>
             </div>
             <div class="charger-floor" data-card-floor></div>
           </div>

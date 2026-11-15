@@ -20,7 +20,7 @@
   --radius: 12px;
   --shadow-hover: 0 14px 30px -14px rgba(12, 35, 64, 0.28);
 
-  /* smaller details (also switched in night mode) */
+  /* smaller interface details */
   --on-ink: #ffffff;       /* text on navy buttons */
   --on-go: #ffffff;        /* text on the green Start button */
   --energy-border: #c4e8f0;
@@ -34,35 +34,6 @@
   color-scheme: light;
 }
 
-/* Night mode: same names, darker values. Switched by js/theme.js */
-:root[data-theme="dark"] {
-  --bg: #0a1524;
-  --surface: #12233a;
-  --line: #243a55;
-  --ink: #e7eef6;
-  --ink-soft: #93a5b9;
-  --cyan: #2fc6e2;
-  --cyan-bright: #55daf0;
-  --cyan-soft: #123a4d;
-  --green: #3cc97a;
-  --green-bright: #5be39a;
-  --green-soft: #12392a;
-  --off: #7d8d9f;
-  --off-soft: #1b2c42;
-  --shadow-hover: 0 14px 30px -14px rgba(0, 0, 0, 0.65);
-
-  --on-ink: #0a1524;
-  --on-go: #06210f;
-  --energy-border: #1f4f62;
-  --camera-a: #162a43;
-  --camera-b: #1a3150;
-  --camera-line: #33506f;
-  --danger: #ff8078;
-  --danger-soft: #3b1d22;
-  --ok-text: #7fe3a9;
-  --off-text: #b6c3d1;
-  color-scheme: dark;
-}
 
 *, *::before, *::after { box-sizing: border-box; }
 
@@ -485,31 +456,7 @@ button, input { font: inherit; color: inherit; }
   transition: width 0.45s linear;
 }
 
-/* ---------- Night mode switch (header button) ---------- */
 .header-right { display: flex; align-items: center; gap: 14px; }
-
-.theme-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  min-height: 38px;
-  padding: 6px 12px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--surface);
-  color: var(--ink);
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: border-color 0.2s ease, background 0.2s ease;
-}
-.theme-toggle:hover { border-color: var(--cyan); }
-.theme-toggle svg { flex: none; }
-.theme-toggle .icon-sun, .theme-toggle .label-light { display: none; }
-:root[data-theme="dark"] .theme-toggle .icon-sun,
-:root[data-theme="dark"] .theme-toggle .label-light { display: inline; }
-:root[data-theme="dark"] .theme-toggle .icon-moon,
-:root[data-theme="dark"] .theme-toggle .label-night { display: none; }
 
 /* smooth color change when switching */
 body, .site-header, .card, .station-card, .field-box, .reading, .live-item {

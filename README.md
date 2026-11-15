@@ -9,7 +9,7 @@ A small website for a graduation project. Plain HTML, CSS and JavaScript. No fra
 1. Open this project folder (`New folder`).
 2. Double-click `index.html` (it opens in your browser).
 
-That is all. The site starts in night mode; the header button switches to light mode and remembers your choice. If you prefer a local server, run `python3 -m http.server` inside the folder and open `http://localhost:8000`.
+That is all. The site uses a light theme. If you prefer a local server, run `python3 -m http.server` inside the folder and open `http://localhost:8000`.
 
 ## Files
 
@@ -21,7 +21,6 @@ voltgo/
 ├── assets/smart-pole-ev.svg EV, smart pole, and ground-routed charging cable illustration
 ├── css/style.css     All styling. Colors are at the top in :root
 └── js/
-    ├── theme.js      Light / night mode switch (remembers the choice)
     ├── stations.js   Station data (edit this to add stations)
     ├── home.js       Builds the station cards
     ├── station.js    EV readings, payment, session, and camera preview
@@ -55,8 +54,7 @@ Save and refresh. The new card appears on the home page and its EV details page 
 
 - **Price:** `pricePerKwh` for each station in `js/stations.js`.
 - **Session limits, preset buttons, demo speed:** the settings at the top of `js/station.js`. The estimate uses requested energy and rated station power. During an EV session, simulated voltage and current vary smoothly around station ratings; displayed power and delivered energy use those same readings. `SIM_SPEED` makes demo progress faster than real time. “Session runtime” is wall-clock time for the demo. Phone package timers use wall-clock time.
-- **Colors:** the variables at the top of `css/style.css`. Light colors are in `:root`, night colors are in `:root[data-theme="dark"]`.
-- **Night mode:** the site starts in night mode; the header button switches to light mode and remembers the choice in the browser.
+- **Colors:** the variables at the top of `css/style.css`.
 
 ## Connecting real hardware later
 
