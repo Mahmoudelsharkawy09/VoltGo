@@ -1,68 +1,53 @@
-// Apply the selected theme before the page is drawn. The query parameter also
-// carries the choice between pages opened from file://, where storage may differ.
+// Read the theme before the page is drawn to prevent a flash of the wrong mode.
+const themeKey = "voltgo-theme";
+const root = document.documentElement;
+const queryTheme = new URLSearchParams(location.search).get("theme");
+let theme = queryTheme === "light" || queryTheme === "dark" ? queryTheme : "dark";
 
-(function () {
-  var KEY = "voltgo-theme";
+try {
+  if (!queryTheme) theme = localStorage.getItem(themeKey) === "light" ? "light" : "dark";
+} catch (error) {
+  // The URL still lets the chosen theme travel between pages if storage is blocked.
+}
+root.dataset.theme = theme;
 
-  function readSaved() {
-    var fromUrl = new URLSearchParams(location.search).get("theme");
-    if (fromUrl === "dark" || fromUrl === "light") return fromUrl;
-    try { return localStorage.getItem(KEY); } catch (e) { return null; }
-  }
-  function save(theme) {
-    try { localStorage.setItem(KEY, theme); } catch (e) { /* storage blocked: ignore */ }
-  }
+function updateThemeButton() {
+  const button = document.getElementById("themeToggle");
+  if (!button) return;
+  const isDark = root.dataset.theme === "dark";
+  button.setAttribute("aria-pressed", String(isDark));
+  button.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to night mode");
+}
 
-  function carryThemeOnLinks(theme) {
-    document.querySelectorAll("a[href]").forEach(function (link) {
-      if (link.target === "_blank" || link.hasAttribute("download")) return;
-      try {
-        var destination = new URL(link.href, location.href);
-        var folder = new URL(".", location.href);
-        if (destination.protocol !== location.protocol || destination.host !== location.host || !destination.pathname.startsWith(folder.pathname)) return;
-        destination.searchParams.set("theme", theme);
-        link.href = destination.href;
-      } catch (e) { /* Ignore non-page links. */ }
-    });
-  }
-
-  var root = document.documentElement;
-  root.setAttribute("data-theme", readSaved() === "light" ? "light" : "dark");
-
-  document.addEventListener("DOMContentLoaded", function () {
-    var button = document.getElementById("themeToggle");
-    if (!button) return;
-
-    function refresh() {
-      var dark = root.getAttribute("data-theme") === "dark";
-      button.setAttribute("aria-pressed", dark ? "true" : "false");
-      button.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to night mode");
-    }
-
-    button.addEventListener("click", function () {
-      var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
-      root.setAttribute("data-theme", next);
-      save(next);
-      var currentUrl = new URL(location.href);
-      currentUrl.searchParams.set("theme", next);
-      history.replaceState(null, "", currentUrl.href);
-      carryThemeOnLinks(next);
-      refresh();
-    });
-
-    carryThemeOnLinks(root.getAttribute("data-theme"));
-    refresh();
+function addThemeToLinks() {
+  document.querySelectorAll("a[href]").forEach((link) => {
+    if (link.target === "_blank" || link.hasAttribute("download")) return;
+    const destination = new URL(link.href, location.href);
+    if (destination.origin !== location.origin) return;
+    destination.searchParams.set("theme", root.dataset.theme);
+    link.href = destination.href;
   });
+}
 
-  window.addEventListener("storage", function (event) {
-    if (event.key !== KEY || (event.newValue !== "light" && event.newValue !== "dark")) return;
-    root.setAttribute("data-theme", event.newValue);
-    carryThemeOnLinks(event.newValue);
-    var button = document.getElementById("themeToggle");
-    if (button) {
-      var dark = event.newValue === "dark";
-      button.setAttribute("aria-pressed", dark ? "true" : "false");
-      button.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to night mode");
-    }
+document.addEventListener("DOMContentLoaded", () => {
+  updateThemeButton();
+  addThemeToLinks();
+  const button = document.getElementById("themeToggle");
+  if (!button) return;
+  button.addEventListener("click", () => {
+    root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
+    try { localStorage.setItem(themeKey, root.dataset.theme); } catch (error) {}
+    const url = new URL(location.href);
+    url.searchParams.set("theme", root.dataset.theme);
+    history.replaceState(null, "", url.href);
+    addThemeToLinks();
+    updateThemeButton();
   });
-})();
+});
+
+window.addEventListener("storage", (event) => {
+  if (event.key !== themeKey || !["light", "dark"].includes(event.newValue)) return;
+  root.dataset.theme = event.newValue;
+  addThemeToLinks();
+  updateThemeButton();
+});

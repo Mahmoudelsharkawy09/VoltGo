@@ -3,24 +3,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>VoltGo – Choose a charging station</title>
+    <title>VoltGo</title>
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/voltgo-icon.png" />
     <link rel="stylesheet" href="css/style.css" />
     <script src="js/theme.js"></script>
   </head>
   <body>
     <header class="site-header">
-      <div class="container header-inner">
+      <div class="container container--wide header-inner">
         <a class="brand" href="index.html" aria-label="VoltGo home">
-          <svg
-            class="brand-mark"
-            viewBox="0 0 24 24"
-            width="22"
-            height="22"
-            aria-hidden="true"
-          >
-            <path d="M13.5 2 5 13.5h6L10 22l9-12h-6.2z" fill="currentColor" />
-          </svg>
-          <span>VoltGo</span>
+          <img class="brand-logo" src="assets/voltgo-logo.png" alt="" />
         </a>
         <div class="header-right">
           <span class="header-note">Low-voltage EV charging</span>
@@ -65,18 +57,40 @@
       </div>
     </header>
 
-    <main class="container">
+    <main class="container container--wide">
       <section class="intro">
         <h1>Choose a charging station</h1>
         <p class="intro-sub" id="summary"></p>
       </section>
 
-      <!-- Cards are created by js/home.js from the list in js/stations.js -->
       <section
         class="stations"
         id="stations"
         aria-label="Charging stations"
       ></section>
+
+      <template id="stationCardTemplate">
+        <a class="station-card" data-card-link>
+          <div class="card-top">
+            <span class="card-id" data-card-id></span>
+            <span class="status" data-card-status></span>
+          </div>
+          <h2 class="card-name" data-card-name></h2>
+          <p class="card-location" data-card-location></p>
+          <div class="charger-stage" aria-hidden="true">
+            <img class="ev-smart-art" data-ev-art src="assets/smart-pole-ev.svg" alt="Smart streetlight pole charging an electric car via a cable">
+            <div class="charger-model" data-phone-art>
+              <div class="charger-face"><span class="charger-logo">V<span>G</span></span><span class="charger-bolt" data-service-icon></span><span class="charger-light"></span><span class="charger-slot"></span></div>
+              <div class="charger-side"></div><div class="charger-foot"></div>
+            </div>
+            <div class="charger-floor" data-card-floor></div>
+          </div>
+          <div class="card-foot">
+            <span class="card-spec" data-card-spec></span>
+            <span class="card-go" data-card-go></span>
+          </div>
+        </a>
+      </template>
     </main>
 
     <script src="js/stations.js"></script>

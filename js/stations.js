@@ -17,7 +17,7 @@ const STATIONS = [
     status: "available",
     voltage: 48,
     current: 10,
-    pricePerKwh: 4.0,
+    pricePerKwh: 20.0,
   },
   {
     id: "VG-02",
@@ -25,9 +25,9 @@ const STATIONS = [
     type: "ev",
     location: "Engineering workshop",
     status: "available",
-    voltage: 48,
+    voltage: 20,
     current: 12,
-    pricePerKwh: 4.0,
+    pricePerKwh: 20.0,
   },
   {
     id: "VG-03",
@@ -50,11 +50,30 @@ const STATIONS = [
     powerKw: 0.03,
     pricePerKwh: 0,
     ports: [
-      { id: "USB-A 1", type: "Standard USB", location: "Near entrance", available: true },
-      { id: "USB-C 1", type: "USB Type-C", location: "Center bay", available: true },
-      { id: "USB-C 2", type: "USB Type-C", location: "Window side", available: false },
+      {
+        id: "USB-A 1",
+        type: "Standard USB",
+        location: "Near entrance",
+        available: true,
+      },
+      {
+        id: "USB-C 1",
+        type: "USB Type-C",
+        location: "Center bay",
+        available: true,
+      },
+      {
+        id: "USB-C 2",
+        type: "USB Type-C",
+        location: "Window side",
+        available: false,
+      },
     ],
-    packages: [{ minutes: 15, price: 10 }, { minutes: 30, price: 18 }, { minutes: 60, price: 30 }],
+    packages: [
+      { minutes: 15, price: 10 },
+      { minutes: 30, price: 18 },
+      { minutes: 60, price: 30 },
+    ],
   },
   {
     id: "PAD-01",
@@ -67,11 +86,30 @@ const STATIONS = [
     powerKw: 0.015,
     pricePerKwh: 0,
     ports: [
-      { id: "Qi pad 1", type: "Wireless pad", location: "Near entrance", available: true },
-      { id: "Qi pad 2", type: "Wireless pad", location: "Center bay", available: false },
-      { id: "Qi pad 3", type: "Wireless pad", location: "Window side", available: false },
+      {
+        id: "Qi pad 1",
+        type: "Wireless pad",
+        location: "Near entrance",
+        available: true,
+      },
+      {
+        id: "Qi pad 2",
+        type: "Wireless pad",
+        location: "Center bay",
+        available: false,
+      },
+      {
+        id: "Qi pad 3",
+        type: "Wireless pad",
+        location: "Window side",
+        available: false,
+      },
     ],
-    packages: [{ minutes: 15, price: 10 }, { minutes: 30, price: 18 }, { minutes: 60, price: 30 }],
+    packages: [
+      { minutes: 15, price: 10 },
+      { minutes: 30, price: 18 },
+      { minutes: 60, price: 30 },
+    ],
   },
 ];
 

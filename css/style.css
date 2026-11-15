@@ -89,6 +89,7 @@ a { color: var(--cyan); }
 button, input { font: inherit; color: inherit; }
 
 .container { width: min(1080px, 100% - 32px); margin-inline: auto; }
+.container--wide { width: min(1880px, 100% - 32px); }
 .muted { color: var(--ink-soft); }
 .small { font-size: 0.85rem; }
 
@@ -113,7 +114,7 @@ button, input { font: inherit; color: inherit; }
   font-size: 1.15rem;
   letter-spacing: -0.01em;
 }
-.brand-mark { color: var(--cyan); }
+.brand-logo { display: block; width: clamp(120px, 10vw, 170px); height: auto; }
 .header-note, .back-link { font-size: 0.9rem; color: var(--ink-soft); text-decoration: none; }
 .back-link:hover { color: var(--ink); }
 

@@ -28,6 +28,10 @@ voltgo/
     └── phone.js      Phone ports, packages, simulated checkout, timed session
 ```
 
+## Arabic study guide
+
+For a detailed explanation of the code in Arabic, including the main code groups, charging formulas, payment/session flow, camera behavior, and expected discussion questions, start with [`docs/00-خريطة-الشرح.md`](docs/00-خريطة-الشرح.md).
+
 ## Add a station
 
 Open `js/stations.js`, copy one station block, and change the `id`, `name` and the other values:

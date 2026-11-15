@@ -4,23 +4,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>VoltGo – Station</title>
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/voltgo-icon.png" />
     <link rel="stylesheet" href="css/style.css" />
     <script src="js/theme.js"></script>
   </head>
   <body>
     <header class="site-header">
-      <div class="container header-inner">
+      <div class="container container--wide header-inner">
         <a class="brand" href="index.html" aria-label="VoltGo home">
-          <svg
-            class="brand-mark"
-            viewBox="0 0 24 24"
-            width="22"
-            height="22"
-            aria-hidden="true"
-          >
-            <path d="M13.5 2 5 13.5h6L10 22l9-12h-6.2z" fill="currentColor" />
-          </svg>
-          <span>VoltGo</span>
+          <img class="brand-logo" src="assets/voltgo-logo.png" alt="" />
         </a>
         <div class="header-right">
           <a class="back-link" href="index.html">&larr; All stations</a>
@@ -132,7 +124,11 @@
                   playsinline
                   hidden
                 ></video>
-                <img class="ev-smart-art ev-smart-art-detail" src="assets/smart-pole-ev.svg" alt="VoltGo smart streetlight charging an electric car; its cable runs along the pavement to the pole-mounted charger">
+                <img
+                  class="ev-smart-art ev-smart-art-detail"
+                  src="assets/smart-pole-ev.svg"
+                  alt="VoltGo smart streetlight charging an electric car; its cable runs along the pavement to the pole-mounted charger"
+                />
                 <div class="camera-message" id="cameraMessage">
                   Night illustration · camera preview off
                 </div>
@@ -235,7 +231,7 @@
                 id="payBtn"
                 disabled
               >
-                Pay (simulated)
+                Pay
               </button>
               <p class="muted small" id="payNote">
                 Demo payment only. No real money is charged.
@@ -250,14 +246,14 @@
                 Start charging
               </button>
               <button type="button" class="link-btn" id="cancelBtn" hidden>
-                Cancel and refund (simulated)
+                Cancel and refund
               </button>
             </section>
 
             <!-- 2. Live charging -->
             <section class="card" id="liveBlock" hidden>
               <h2 class="card-title">
-                Charging <span class="pulse-dot" aria-hidden="true"></span>
+                <span id="chargingState">Charging</span> <span class="pulse-dot" id="chargingPulse" aria-hidden="true"></span>
               </h2>
 
               <div class="live-grid">
@@ -299,11 +295,17 @@
               </div>
               <p class="muted small">
                 <span id="lvPercent">0</span>% of
-                <span id="lvTarget">0</span> kWh &middot; simulated session
+                <span id="lvTarget">0</span> kWh &middot; <span id="sessionNote">simulated session</span>
               </p>
 
               <button type="button" class="btn btn--stop" id="stopBtn">
                 Stop charging
+              </button>
+              <button type="button" class="btn btn--go" id="resumeBtn" hidden>
+                Resume charging
+              </button>
+              <button type="button" class="link-btn" id="cancelSessionBtn">
+                Cancel session and refund unused balance
               </button>
             </section>
 
@@ -334,7 +336,7 @@
                 </div>
               </dl>
               <p class="muted small">
-                Simulated session. No real payment or hardware was involved.
+                No real payment or hardware was involved.
               </p>
               <div class="btn-row">
                 <button type="button" class="btn btn--primary" id="newBtn">

@@ -4,15 +4,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Phone charging · VoltGo</title>
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/voltgo-icon.png" />
     <link rel="stylesheet" href="css/style.css" />
     <script src="js/theme.js"></script>
   </head>
   <body>
     <header class="site-header">
-      <div class="container header-inner">
+      <div class="container container--wide header-inner">
         <a class="brand" href="index.html" aria-label="VoltGo home">
-          <svg class="brand-mark" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M13.5 2 5 13.5h6L10 22l9-12h-6.2z" fill="currentColor" /></svg>
-          <span>VoltGo</span>
+          <img class="brand-logo" src="assets/voltgo-logo.png" alt="" />
         </a>
         <div class="header-right">
           <a class="back-link" href="index.html">&larr; All services</a>
@@ -76,6 +76,19 @@
         </div>
       </div>
     </main>
+    <template id="phonePortTemplate">
+      <button type="button" class="phone-port">
+        <span class="phone-port-dot"></span>
+        <span><strong><span data-port-id></span> <small class="phone-port-type" data-port-type></small></strong><small data-port-location></small></span>
+        <span class="phone-port-check" data-port-check></span>
+      </button>
+    </template>
+    <template id="phonePackageTemplate">
+      <button type="button" class="phone-package">
+        <strong><span data-package-minutes></span><small> min</small></strong>
+        <span data-package-price></span>
+      </button>
+    </template>
     <script src="js/stations.js"></script>
     <script src="js/phone.js"></script>
   </body>

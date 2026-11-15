@@ -47,6 +47,8 @@ const state = {
   charging: false,
   consumed: 0, // kWh delivered so far
   modeledSeconds: 0,
+  runtimeMs: 0,
+  startedAt: null,
   timer: null,
 };
 
@@ -265,10 +267,16 @@ function startCharging() {
   state.charging = true;
   state.consumed = 0;
   state.modeledSeconds = 0;
+  state.runtimeMs = 0;
   state.startedAt = Date.now();
 
   $("setupBlock").hidden = true;
   $("liveBlock").hidden = false;
+  $("chargingState").textContent = "Charging";
+  $("chargingPulse").hidden = false;
+  $("stopBtn").hidden = false;
+  $("resumeBtn").hidden = true;
+  $("sessionNote").textContent = "simulated session";
   $("lvTarget").textContent = fmt(state.request.kwh);
 
   updateLive();
@@ -314,7 +322,8 @@ function updateLive(readings) {
   $("lvCost").textContent = fmt(cost);
   $("lvBalance").textContent = fmt(state.request.egp - cost);
   // Runtime is wall-clock time for this accelerated demo session.
-  $("lvTime").textContent = formatClock((Date.now() - state.startedAt) / 1000);
+  const activeMs = state.runtimeMs + (state.charging ? Date.now() - state.startedAt : 0);
+  $("lvTime").textContent = formatClock(activeMs / 1000);
   $("lvPercent").textContent = Math.round(percent);
   $("progressFill").style.width = percent + "%";
   $("progress").setAttribute("aria-valuenow", Math.round(percent));
@@ -323,8 +332,11 @@ function updateLive(readings) {
 }
 
 function finish(reason) {
+  if (state.charging && state.startedAt) state.runtimeMs += Date.now() - state.startedAt;
   clearInterval(state.timer);
+  state.timer = null;
   state.charging = false;
+  state.startedAt = null;
   showReadings();
 
   const cost = costSoFar();
@@ -335,16 +347,46 @@ function finish(reason) {
   $("smPaid").textContent = fmt(state.request.egp) + " EGP";
   $("smRefund").textContent =
     fmt(state.request.egp - cost) + " EGP (simulated)";
-  $("smTime").textContent = formatClock((Date.now() - state.startedAt) / 1000);
+  $("smTime").textContent = formatClock(state.runtimeMs / 1000);
 
   $("liveBlock").hidden = true;
   $("summaryBlock").hidden = false;
+}
+
+function pauseCharging() {
+  if (!state.charging) return;
+  state.runtimeMs += Date.now() - state.startedAt;
+  state.startedAt = null;
+  clearInterval(state.timer);
+  state.timer = null;
+  state.charging = false;
+  $("chargingState").textContent = "Charging paused";
+  $("chargingPulse").hidden = true;
+  $("stopBtn").hidden = true;
+  $("resumeBtn").hidden = false;
+  $("sessionNote").textContent = "Charging paused · resume to continue with the remaining purchased energy.";
+}
+
+function resumeCharging() {
+  if (!state.paid || state.charging || state.consumed >= state.request.kwh) return;
+  state.charging = true;
+  state.startedAt = Date.now();
+  $("chargingState").textContent = "Charging";
+  $("chargingPulse").hidden = false;
+  $("stopBtn").hidden = false;
+  $("resumeBtn").hidden = true;
+  $("sessionNote").textContent = "Charging resumed · simulated session.";
+  state.timer = setInterval(tick, TICK_MS);
 }
 
 function newSession() {
   state.paid = false;
   state.request = null;
   state.consumed = 0;
+  state.modeledSeconds = 0;
+  state.runtimeMs = 0;
+  state.startedAt = null;
+  state.timer = null;
 
   $("summaryBlock").hidden = true;
   $("setupBlock").hidden = false;
@@ -368,8 +410,10 @@ $("amountInput").addEventListener("input", updatePreview);
 $("payBtn").addEventListener("click", pay);
 $("cancelBtn").addEventListener("click", cancelPayment);
 $("startBtn").addEventListener("click", startCharging);
-$("stopBtn").addEventListener("click", () =>
-  finish("Charging stopped by you."),
+$("stopBtn").addEventListener("click", pauseCharging);
+$("resumeBtn").addEventListener("click", resumeCharging);
+$("cancelSessionBtn").addEventListener("click", () =>
+  finish("Session cancelled by you. Unused balance has been refunded (simulated)."),
 );
 $("newBtn").addEventListener("click", newSession);
 

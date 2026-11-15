@@ -1,6 +1,8 @@
 const $phone = (id) => document.getElementById(id);
 const requestedPhoneService = STATIONS.find((item) => item.id === new URLSearchParams(location.search).get("id") && ["wired", "wireless"].includes(item.type));
 const phonePrices = new Intl.NumberFormat("en-EG", { maximumFractionDigits: 0 });
+const portTemplate = document.getElementById("phonePortTemplate");
+const packageTemplate = document.getElementById("phonePackageTemplate");
 let selectedPackage = null;
 let selectedPort = null;
 let phoneTimer = null;
@@ -31,11 +33,15 @@ function initPhonePage() {
 function renderPorts(item) {
   const wrap = $phone("phonePorts");
   item.ports.forEach((port, index) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "phone-port" + (port.available && !selectedPort ? " selected" : "") + (port.available ? "" : " is-closed");
+    const button = portTemplate.content.firstElementChild.cloneNode(true);
+    const selected = port.available && !selectedPort;
+    if (selected) button.classList.add("selected");
+    if (!port.available) button.classList.add("is-closed");
     button.disabled = !port.available;
-    button.innerHTML = `<span class="phone-port-dot"></span><span><strong>${port.id} <small class="phone-port-type">${port.type}</small></strong><small>${port.available ? port.location : "Closed · unavailable"}</small></span><span class="phone-port-check">${port.available ? "✓" : "×"}</span>`;
+    button.querySelector("[data-port-id]").textContent = port.id;
+    button.querySelector("[data-port-type]").textContent = port.type;
+    button.querySelector("[data-port-location]").textContent = port.available ? port.location : "Closed · unavailable";
+    button.querySelector("[data-port-check]").textContent = port.available ? "✓" : "×";
     button.addEventListener("click", () => {
       if (!port.available || $phone("phonePay").disabled) return;
       wrap.querySelectorAll(".phone-port").forEach((node) => node.classList.remove("selected"));
@@ -50,10 +56,10 @@ function renderPorts(item) {
 function renderPackages(item) {
   const wrap = $phone("phonePackages");
   item.packages.forEach((pkg, index) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "phone-package" + (index === 1 ? " selected" : "");
-    button.innerHTML = `<strong>${pkg.minutes}<small> min</small></strong><span>${phonePrices.format(pkg.price)} EGP</span>`;
+    const button = packageTemplate.content.firstElementChild.cloneNode(true);
+    if (index === 1) button.classList.add("selected");
+    button.querySelector("[data-package-minutes]").textContent = pkg.minutes;
+    button.querySelector("[data-package-price]").textContent = phonePrices.format(pkg.price) + " EGP";
     button.addEventListener("click", () => {
       if ($phone("phonePay").disabled) return;
       wrap.querySelectorAll(".phone-package").forEach((node) => node.classList.remove("selected"));
