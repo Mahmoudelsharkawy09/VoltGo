@@ -25,163 +25,90 @@
 
     <main class="container container--wide about-main">
       <!-- HERO -->
-      <section class="about-hero">
-        <span class="about-badge">⚡ ESP32-S3 · 4G LTE · n8n Cloud Automation</span>
+      <section class="about-hero" style="margin-bottom: 30px;">
+        <span class="about-badge">⚡ System Workflow</span>
         <h1>How VoltGo Works</h1>
         <p class="intro-sub">
-          Powered by an ESP32-S3 edge controller, 4G LTE connectivity, and an n8n cloud automation engine, the VoltGo smart solar street pole manages clean energy, EV and mobile charging, and public safety in four seamless steps.
+          A smart solar street pole combining adaptive lighting, real 220V EV charging, and cloud automation in four simple steps.
         </p>
       </section>
 
-      <!-- KEY STATS / HIGHLIGHTS -->
-      <div class="about-stats">
-        <div class="stat-card">
-          <strong>ESP32-S3 &amp; 4G LTE</strong>
-          <p>Dual-core edge intelligence communicating 24/7 over cellular 4G LTE with millisecond response.</p>
+      <!-- 4 CONCISE STEPS -->
+      <div class="steps-grid">
+        <!-- Step 1 -->
+        <div class="step-card">
+          <span class="step-card-num">01</span>
+          <h3>Radar Detection &amp; Lighting</h3>
+          <p>
+            A 24GHz radar tracks approaching pedestrians and vehicles, ramping street lights from 20% to 100% and waking up the touchscreen.
+          </p>
+          <div class="hw-tags">
+            <span class="hw-tag hw-tag--cyan">24GHz mmWave Radar</span>
+            <span class="hw-tag">Adaptive Dimming</span>
+          </div>
         </div>
-        <div class="stat-card">
-          <strong>n8n Cloud Engine</strong>
-          <p>Automated cloud authentication, real-time balance validation, and automated Telegram alerts.</p>
+
+        <!-- Step 2 -->
+        <div class="step-card">
+          <span class="step-card-num">02</span>
+          <h3>RFID &amp; QR Authentication</h3>
+          <p>
+            Users tap an RFID card or scan the QR code. The pole instantly verifies credentials and balance through cloud automation over 4G LTE.
+          </p>
+          <div class="hw-tags">
+            <span class="hw-tag hw-tag--cyan">RFID / QR Scan</span>
+            <span class="hw-tag hw-tag--green">n8n Cloud Verification</span>
+          </div>
         </div>
-        <div class="stat-card">
-          <strong>220V EV &amp; Device Hub</strong>
-          <p>Isolated 220V AC contactor for EV charging, alongside QC3.0/PD3.0 ports and 15W Qi wireless.</p>
+
+        <!-- Step 3 -->
+        <div class="step-card">
+          <span class="step-card-num">03</span>
+          <h3>220V EV &amp; Phone Charging</h3>
+          <p>
+            Once approved, an isolated 220V contactor safely powers the EV charging cable, alongside QC/PD fast USB ports and a 15W wireless pad.
+          </p>
+          <div class="hw-tags">
+            <span class="hw-tag hw-tag--cyan">220V AC Contactor</span>
+            <span class="hw-tag">Fast USB &amp; 15W Qi</span>
+          </div>
         </div>
-        <div class="stat-card">
-          <strong>Radar &amp; Public Safety</strong>
-          <p>RD-03D 24GHz mmWave radar for adaptive lighting &amp; 7" HMI wakeup + SOS OV2640 camera alerts.</p>
+
+        <!-- Step 4 -->
+        <div class="step-card">
+          <span class="step-card-num">04</span>
+          <h3>Live Telemetry &amp; SOS Safety</h3>
+          <p>
+            Energy and battery telemetry are logged in real time. In an emergency, the panic SOS button snaps a photo and alerts Telegram immediately.
+          </p>
+          <div class="hw-tags">
+            <span class="hw-tag hw-tag--cyan">Camera Snapshot</span>
+            <span class="hw-tag hw-tag--green">Telegram SOS Alert</span>
+          </div>
         </div>
       </div>
 
-      <!-- SYSTEM WORKFLOW (THE 4 SEAMLESS STEPS) -->
-      <section class="about-section">
-        <div class="section-header">
-          <p class="eyebrow">Embedded &amp; Cloud Workflow</p>
-          <h2>The Four Operational Steps</h2>
-          <p class="section-lead">
-            From smart radar sensing to cloud-authorized 220V power delivery and emergency security handling:
-          </p>
-        </div>
-
-        <div class="steps-grid">
-          <!-- Step 1 -->
-          <div class="step-card">
-            <span class="step-card-num">01</span>
-            <h3>Precision Radar Tracking &amp; Adaptive Lighting (RD-03D)</h3>
-            <p>
-              The RD-03D 24GHz multi-target millimeter-wave radar tracks approaching pedestrians and vehicles with high accuracy, smoothly ramping street lighting from 20% eco-standby to 100% brightness while waking up the 7-inch interactive HMI touchscreen.
-            </p>
-            <div class="hw-tags">
-              <span class="hw-tag hw-tag--cyan">RD-03D 24GHz mmWave</span>
-              <span class="hw-tag">20% ➔ 100% Lighting</span>
-              <span class="hw-tag">7" HMI Wakeup</span>
-            </div>
+      <!-- COMPACT CORE SPECS STRIP -->
+      <div class="spotlight-box" style="margin-top: 32px; padding: 20px 24px;">
+        <div class="spotlight-points" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px;">
+          <div class="spotlight-point">
+            <strong><span>🧠</span> Controller</strong>
+            <p>ESP32-S3 &amp; 4G LTE Modem</p>
           </div>
-
-          <!-- Step 2 -->
-          <div class="step-card">
-            <span class="step-card-num">02</span>
-            <h3>Instant RFID / QR Scan &amp; n8n Verification</h3>
-            <p>
-              Users tap a registered RFID card or scan the on-screen QR code. The pole dispatches a real-time request over 4G LTE to our n8n workflow engine, which instantly validates user credentials and balance against the cloud database.
-            </p>
-            <div class="hw-tags">
-              <span class="hw-tag hw-tag--cyan">RFID / Mifare NFC</span>
-              <span class="hw-tag">Dynamic QR Code</span>
-              <span class="hw-tag">4G LTE Dispatch</span>
-              <span class="hw-tag hw-tag--green">n8n Engine</span>
-            </div>
+          <div class="spotlight-point">
+            <strong><span>🔌</span> Power Grid</strong>
+            <p>220V AC Line + Solar &amp; Battery</p>
           </div>
-
-          <!-- Step 3 -->
-          <div class="step-card">
-            <span class="step-card-num">03</span>
-            <h3>Intelligent EV &amp; Multi-Device Charging</h3>
-            <p>
-              Once n8n authorizes the session, the controller safely engages the isolated 220V AC contactor for EV charging, alongside QC3.0 / PD3.0 wired fast-charging ports and a 15W Qi wireless pad—continuously balanced by real-time solar and battery monitoring.
-            </p>
-            <div class="hw-tags">
-              <span class="hw-tag hw-tag--cyan">Isolated 220V Contactor</span>
-              <span class="hw-tag">QC3.0 / PD3.0 Fast USB</span>
-              <span class="hw-tag">15W Qi Wireless</span>
-              <span class="hw-tag hw-tag--green">Solar &amp; Battery BMS</span>
-            </div>
+          <div class="spotlight-point">
+            <strong><span>📱</span> Terminals</strong>
+            <p>Real EV Cable + USB-PD &amp; Qi</p>
           </div>
-
-          <!-- Step 4 -->
-          <div class="step-card">
-            <span class="step-card-num">04</span>
-            <h3>Automated n8n Cloud Logging &amp; Emergency SOS</h3>
-            <p>
-              Solar generation, battery health, and charging logs are routed 24/7 through n8n to cloud dashboards. In an emergency, pressing the vandal-proof SOS panic button captures a live snapshot (OV2640 camera) and triggers an automated n8n alert directly to Telegram.
-            </p>
-            <div class="hw-tags">
-              <span class="hw-tag hw-tag--cyan">OV2640 Camera Snapshot</span>
-              <span class="hw-tag">Vandal-Proof SOS</span>
-              <span class="hw-tag hw-tag--green">Telegram Alerts</span>
-              <span class="hw-tag">24/7 Cloud Telemetry</span>
-            </div>
+          <div class="spotlight-point">
+            <strong><span>☁️</span> Cloud System</strong>
+            <p>n8n Workflows &amp; Telegram Alerts</p>
           </div>
         </div>
-
-        <!-- EMBEDDED SUBSYSTEM SPECIFICATIONS -->
-        <div class="spotlight-box">
-          <h3>Hardware &amp; Embedded Architecture Specifications</h3>
-          <p>
-            Detailed technical breakdown of the embedded hardware, sensing modules, power regulation, and cloud automation orchestrated by the VoltGo smart pole:
-          </p>
-
-          <div class="embedded-specs-grid">
-            <!-- Box 1 -->
-            <div class="embedded-spec-card">
-              <h4><span>🧠</span> Edge Computing &amp; Comms</h4>
-              <p>Primary processing and cloud telemetry relay.</p>
-              <ul class="embedded-spec-list">
-                <li><span>Controller</span><span>ESP32-S3 Dual-Core</span></li>
-                <li><span>Clock Speed</span><span>240 MHz (LX7)</span></li>
-                <li><span>Cellular Link</span><span>4G LTE Modem</span></li>
-                <li><span>Touch Interface</span><span>7-inch Interactive HMI</span></li>
-              </ul>
-            </div>
-
-            <!-- Box 2 -->
-            <div class="embedded-spec-card">
-              <h4><span>📡</span> Radar &amp; Vision Sensing</h4>
-              <p>Environmental tracking and security optics.</p>
-              <ul class="embedded-spec-list">
-                <li><span>Presence Radar</span><span>RD-03D 24GHz mmWave</span></li>
-                <li><span>Tracking</span><span>Multi-target detection</span></li>
-                <li><span>Street Lighting</span><span>20% to 100% PWM Ramp</span></li>
-                <li><span>Emergency Optics</span><span>OV2640 Snapshot Camera</span></li>
-              </ul>
-            </div>
-
-            <!-- Box 3 -->
-            <div class="embedded-spec-card">
-              <h4><span>🔌</span> Power Stage &amp; Terminals</h4>
-              <p>Electric vehicle and multi-device power delivery.</p>
-              <ul class="embedded-spec-list">
-                <li><span>EV Charging</span><span>220V AC Isolated Contactor</span></li>
-                <li><span>Vehicle Link</span><span>Dedicated EV Cable</span></li>
-                <li><span>Wired USB</span><span>QC3.0 / USB-PD 3.0</span></li>
-                <li><span>Wireless Pad</span><span>15W Qi Inductive</span></li>
-              </ul>
-            </div>
-
-            <!-- Box 4 -->
-            <div class="embedded-spec-card">
-              <h4><span>⚙️</span> Automation &amp; Safety</h4>
-              <p>Cloud workflow orchestration and emergency protocols.</p>
-              <ul class="embedded-spec-list">
-                <li><span>Cloud Engine</span><span>n8n Workflow Automation</span></li>
-                <li><span>Authentication</span><span>RFID + Dynamic QR Code</span></li>
-                <li><span>Energy Source</span><span>Solar PV + Battery Storage</span></li>
-                <li><span>Emergency SOS</span><span>Instant Telegram Dispatch</span></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
+      </div>
     </main>
 
     <footer class="site-footer">
@@ -189,5 +116,6 @@
         <p>VoltGo &middot; Smart 220V EV &amp; Device Charging Network. All rights reserved.</p>
       </div>
     </footer>
+    <script src="js/energy-bg.js" defer></script>
   </body>
 </html>
