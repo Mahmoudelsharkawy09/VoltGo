@@ -1,4 +1,4 @@
-# VoltGo – low-voltage EV charging prototype
+# VoltGo – 220V EV charging network
 
 A small website for a graduation project. Plain HTML, CSS and JavaScript. No frameworks, no build step, no installs. Home cards cover EV, wired phone and wireless phone charging.
 
@@ -18,7 +18,7 @@ voltgo/
 ├── index.html        Home page: choose a station
 ├── station.html      EV station details and live camera preview
 ├── phone.html        Shared wired/wireless phone charging page
-├── assets/smart-pole-ev.svg EV, smart pole, and ground-routed charging cable illustration
+├── assets/ev-charging-station.webp EV charging illustration with transparent background
 ├── css/style.css     All styling. Colors are at the top in :root
 └── js/
     ├── stations.js   Station data (edit this to add stations)
@@ -42,8 +42,8 @@ Open `js/stations.js`, copy one station block, and change the `id`, `name` and t
   location: "Next to the library",
   type: "ev",
   status: "available",   // or "offline"
-  voltage: 48,
-  current: 10,
+  voltage: 220,
+  current: 16,
   pricePerKwh: 4.0,
 },
 ```

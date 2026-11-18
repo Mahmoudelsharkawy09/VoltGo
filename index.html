@@ -16,22 +16,96 @@
     <header class="site-header">
       <div class="container container--wide header-inner">
         <a class="brand" href="index.html" aria-label="VoltGo home">
-          <img class="brand-logo" src="assets/voltgo-logo.png" alt="" />
+          <img class="brand-logo" src="assets/voltgo-logo.png" alt="VoltGo" />
         </a>
+        <nav class="header-nav" aria-label="Main Navigation">
+          <a class="nav-link" href="how-it-works.html">How It Works</a>
+          <a class="nav-link" href="about.html">About &amp; Team</a>
+        </nav>
       </div>
     </header>
 
-    <main class="container container--wide">
-      <section class="intro">
-        <h1>Choose a charging station</h1>
-        <p class="intro-sub" id="summary"></p>
+    <main class="container container--wide home-main">
+      <section class="intro" id="homeIntro">
+        <h1>Choose a service</h1>
       </section>
 
       <section
-        class="stations"
-        id="stations"
-        aria-label="Charging stations"
-      ></section>
+        class="service-picker"
+        id="servicePicker"
+        aria-label="Choose a charging service"
+      >
+        <button class="service-choice" type="button" data-service-choice="ev">
+          <span class="service-choice-copy">
+            <span class="service-choice-kicker"
+              >EV CHARGING
+              <span class="service-choice-count" data-service-count="ev"></span
+            ></span>
+            <strong>Charge your car</strong>
+            <span class="service-choice-cta"
+              >View stations <span aria-hidden="true">↗</span></span
+            >
+          </span>
+          <span
+            class="service-choice-art service-choice-art--ev"
+            aria-hidden="true"
+          >
+            <img src="assets/ev-charging-station.webp" alt="" />
+          </span>
+        </button>
+        <button
+          class="service-choice service-choice--phone"
+          type="button"
+          data-service-choice="phone"
+        >
+          <span class="service-choice-copy">
+            <span class="service-choice-kicker"
+              >PHONE CHARGING
+              <span
+                class="service-choice-count"
+                data-service-count="phone"
+              ></span
+            ></span>
+            <strong>Charge your phone</strong>
+            <span class="service-choice-cta"
+              >View services <span aria-hidden="true">↗</span></span
+            >
+          </span>
+          <span
+            class="service-choice-art service-choice-art--phone"
+            aria-hidden="true"
+          >
+            <div class="phone-service-stage">
+              <span class="phone-stage-floor"></span>
+              <div class="charger-model phone-choice-model">
+                <div class="charger-face">
+                  <span class="charger-logo">V<span>G</span></span
+                  ><span class="charger-bolt">⌁</span
+                  ><span class="charger-light"></span
+                  ><span class="charger-slot"></span>
+                </div>
+                <div class="charger-side"></div>
+                <div class="charger-foot"></div>
+              </div>
+            </div>
+          </span>
+        </button>
+      </section>
+
+      <section class="station-browser" id="stationBrowser" hidden>
+        <div class="station-browser-head">
+          <div>
+            <p class="eyebrow" id="serviceEyebrow"></p>
+            <h2 id="stationsTitle"></h2>
+            <p class="intro-sub" id="summary"></p>
+          </div>
+        </div>
+        <section
+          class="stations"
+          id="stations"
+          aria-label="Charging stations"
+        ></section>
+      </section>
 
       <template id="stationCardTemplate">
         <a class="station-card" data-card-link>
@@ -45,8 +119,8 @@
             <img
               class="ev-smart-art"
               data-ev-art
-              src="assets/smart-pole-ev.svg"
-              alt="Smart streetlight pole charging an electric car via a cable"
+              src="assets/ev-charging-station.webp"
+              alt="3D illustration of an electric car connected to a charging station"
             />
             <div class="charger-model" data-phone-art>
               <div class="charger-face">

@@ -14,11 +14,15 @@
           <img class="brand-logo" src="assets/voltgo-logo.png" alt="" />
         </a>
         <div class="header-right">
+          <nav class="header-nav" aria-label="Main Navigation">
+            <a class="nav-link" href="how-it-works.html">How It Works</a>
+            <a class="nav-link" href="about.html">About &amp; Team</a>
+          </nav>
           <a class="back-link" href="index.html">&larr; All services</a>
         </div>
       </div>
     </header>
-    <main class="container phone-main">
+    <main class="container container--station phone-main">
       <section id="phoneNotFound" class="notice-block" hidden><h1>Service not found</h1><p><a href="index.html">Go back to VoltGo services.</a></p></section>
       <div id="phoneView" hidden>
         <div class="station-head"><div><p class="eyebrow" id="phoneId"></p><h1 id="phoneName"></h1><p class="muted" id="phoneLocation"></p></div><span class="status status--available">Available</span></div>
@@ -47,15 +51,21 @@
           <section class="card phone-control-card">
             <div id="phoneSetup">
               <h2 class="card-title">Set up a charging session</h2>
-              <div class="step"><span class="step-num">1</span><span class="step-title" id="portHeading">Choose an available port</span></div>
-              <div class="phone-port-list" id="phonePorts"></div>
-              <div class="step"><span class="step-num">2</span><span class="step-title">Choose a time package</span></div>
-              <div class="phone-package-list" id="phonePackages"></div>
-              <dl class="summary-list phone-price"><div><dt>Session time</dt><dd id="phoneTimeChoice">30 min</dd></div><div><dt>Price</dt><dd id="phonePrice">18 EGP</dd></div></dl>
-              <button type="button" class="btn btn--primary" id="phonePay">Pay 18 EGP (simulated)</button>
-              <p class="muted small phone-footnote" id="phonePayNote">Demo payment only. No real money is charged.</p>
-              <p class="notice notice--ok" id="phonePaidNotice" hidden></p>
-              <button type="button" class="btn btn--go" id="phoneStart" disabled>Start charging</button>
+              <div class="phone-setup-grid">
+                <div class="phone-setup-ports">
+                  <div class="step"><span class="step-num">1</span><span class="step-title" id="portHeading">Choose an available port</span></div>
+                  <div class="phone-port-list" id="phonePorts"></div>
+                </div>
+                <div class="phone-setup-purchase">
+                  <div class="step"><span class="step-num">2</span><span class="step-title">Choose a time package</span></div>
+                  <div class="phone-package-list" id="phonePackages"></div>
+                  <dl class="summary-list phone-price"><div><dt>Session time</dt><dd id="phoneTimeChoice">30 min</dd></div><div><dt>Price</dt><dd id="phonePrice">18 EGP</dd></div></dl>
+                  <button type="button" class="btn btn--primary" id="phonePay">Pay 18 EGP (simulated)</button>
+                  <p class="muted small phone-footnote" id="phonePayNote">Demo payment only. No real money is charged.</p>
+                  <p class="notice notice--ok" id="phonePaidNotice" hidden></p>
+                  <button type="button" class="btn btn--go" id="phoneStart" disabled>Start charging</button>
+                </div>
+              </div>
             </div>
             <div id="phoneSession" hidden>
               <h2 class="card-title">Phone charging <span class="pulse-dot" id="phonePulse" hidden></span></h2>
@@ -64,6 +74,7 @@
               <div class="progress phone-progress"><div class="progress-fill" id="phoneProgress"></div></div>
               <p class="muted small" id="phoneSessionNote">Start the session when you’re ready.</p>
               <button type="button" class="btn btn--stop" id="phoneStop" disabled>Stop session</button>
+              <button type="button" class="btn btn--go" id="phoneResume" hidden>Resume charging</button>
               <a href="index.html" class="btn btn--ghost phone-back">All services</a>
             </div>
           </section>

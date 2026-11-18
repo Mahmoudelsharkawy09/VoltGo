@@ -4,7 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>VoltGo – Station</title>
-    <link rel="icon" type="image/png" sizes="192x192" href="assets/voltgo-icon.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="assets/voltgo-icon.png"
+    />
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
@@ -14,12 +19,16 @@
           <img class="brand-logo" src="assets/voltgo-logo.png" alt="" />
         </a>
         <div class="header-right">
+          <nav class="header-nav" aria-label="Main Navigation">
+            <a class="nav-link" href="how-it-works.html">How It Works</a>
+            <a class="nav-link" href="about.html">About &amp; Team</a>
+          </nav>
           <a class="back-link" href="index.html">&larr; All stations</a>
         </div>
       </div>
     </header>
 
-    <main class="container">
+    <main class="container container--station station-main">
       <!-- Shown when the ?id= in the address does not match any station -->
       <section id="notFound" class="notice-block" hidden>
         <h1>Station not found</h1>
@@ -88,11 +97,11 @@
                 ></video>
                 <img
                   class="ev-smart-art ev-smart-art-detail"
-                  src="assets/smart-pole-ev.svg"
-                  alt="VoltGo smart streetlight charging an electric car; its cable runs along the pavement to the pole-mounted charger"
+                  src="assets/ev-charging-station.webp"
+                  alt="3D illustration of an electric car connected to a charging station"
                 />
                 <div class="camera-message" id="cameraMessage">
-                  Night illustration · camera preview off
+                  Station illustration · camera preview off
                 </div>
               </div>
               <button
@@ -183,30 +192,39 @@
                 </div>
               </dl>
 
-              <div class="step">
-                <span class="step-num">2</span>
-                <span class="step-title">Pay</span>
+              <div class="checkout-step">
+                <div class="step">
+                  <span class="step-num">2</span>
+                  <span class="step-title">Pay</span>
+                </div>
+                <button
+                  type="button"
+                  class="btn btn--primary"
+                  id="payBtn"
+                  disabled
+                >
+                  Pay (simulated)
+                </button>
               </div>
-              <button
-                type="button"
-                class="btn btn--primary"
-                id="payBtn"
-                disabled
-              >
-                Pay
-              </button>
               <p class="muted small" id="payNote">
                 Demo payment only. No real money is charged.
               </p>
               <p class="notice notice--ok" id="paidNotice" hidden></p>
 
-              <div class="step">
-                <span class="step-num">3</span>
-                <span class="step-title">Charge</span>
+              <div class="checkout-step">
+                <div class="step">
+                  <span class="step-num">3</span>
+                  <span class="step-title">Charge</span>
+                </div>
+                <button
+                  type="button"
+                  class="btn btn--go"
+                  id="startBtn"
+                  disabled
+                >
+                  Start charging
+                </button>
               </div>
-              <button type="button" class="btn btn--go" id="startBtn" disabled>
-                Start charging
-              </button>
               <button type="button" class="link-btn" id="cancelBtn" hidden>
                 Cancel and refund
               </button>
@@ -215,7 +233,12 @@
             <!-- 2. Live charging -->
             <section class="card" id="liveBlock" hidden>
               <h2 class="card-title">
-                <span id="chargingState">Charging</span> <span class="pulse-dot" id="chargingPulse" aria-hidden="true"></span>
+                <span id="chargingState">Charging</span>
+                <span
+                  class="pulse-dot"
+                  id="chargingPulse"
+                  aria-hidden="true"
+                ></span>
               </h2>
 
               <div class="live-grid">
@@ -257,7 +280,8 @@
               </div>
               <p class="muted small">
                 <span id="lvPercent">0</span>% of
-                <span id="lvTarget">0</span> kWh &middot; <span id="sessionNote">simulated session</span>
+                <span id="lvTarget">0</span> kWh &middot;
+                <span id="sessionNote">simulated session</span>
               </p>
 
               <button type="button" class="btn btn--stop" id="stopBtn">
