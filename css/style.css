@@ -669,6 +669,10 @@ button, .btn, .chip, .seg { touch-action: manipulation; -webkit-tap-highlight-co
 .pole-telemetry { margin: 18px 0 12px; padding: 15px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); }
 .pole-telemetry-heading,.pole-reading-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .pole-telemetry-heading { margin-bottom: 12px; }
+.pole-connection-status { padding: 4px 9px; border-radius: 99px; font-size: .7rem; font-weight: 700; white-space: nowrap; }
+.pole-connection-status.is-demo { color: var(--ink-soft); background: var(--off-soft); }
+.pole-connection-status.is-live { color: var(--ok-text); background: var(--green-soft); }
+.pole-connection-status.is-offline { color: #a33c36; background: #fce9e7; }
 .pole-telemetry-heading h3 { font-size: .92rem; }
 .pole-telemetry-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .pole-reading { min-width: 0; padding: 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
