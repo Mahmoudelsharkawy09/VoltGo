@@ -64,3 +64,19 @@ The animated 3D charging columns and service station models are CSS illustration
 - `simulatePayment()` – replace with a call to a real payment provider (done on a server, never directly in the browser).
 - `tick()` – replace the calculated energy with the real energy meter value.
 - Browser camera preview is local only. A real charger-camera system would need a supported hardware feed and appropriate backend connection.
+
+## Connect the smart-pole dashboard to n8n
+
+The phone charging page polls the n8n webhook in `js/pole-api.js` every five seconds. It expects JSON like this:
+
+```json
+{
+  "status": "online",
+  "battery_percent": 86,
+  "battery_voltage": 12.4,
+  "solar_current": 1.8,
+  "temperature": 29.0
+}
+```
+
+The webhook URL is set in `VOLTGO_API_URL` near the top of that file. If you change it, use the exact active **Production URL** from n8n. The endpoint must allow browser GET requests from the website's origin (CORS). If the browser blocks the request or the webhook is unavailable, the page labels the connection as disconnected and keeps clearly labeled demo readings. The live values are read-only; this page does not control the pole or charger.

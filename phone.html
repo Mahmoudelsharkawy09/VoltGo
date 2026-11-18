@@ -30,8 +30,8 @@
           <section class="card phone-visual-card">
             <h2 class="card-title">Charging station <span class="tag">CSS 3D illustration</span></h2>
             <div class="phone-scene" id="phoneScene"><div class="phone-scene-glow"></div><div class="phone-station-model"><span class="phone-model-logo">VG</span><span class="phone-model-icon" id="phoneModelIcon"></span><span class="phone-model-light"></span><span class="phone-model-base"></span></div><div class="phone-scene-floor"></div></div>
-            <section class="pole-telemetry" aria-label="Simulated smart pole readings">
-              <div class="pole-telemetry-heading"><h3>Smart pole status</h3><span class="tag">simulated</span></div>
+            <section class="pole-telemetry" aria-label="Smart pole readings">
+              <div class="pole-telemetry-heading"><h3>Smart pole status</h3><span class="pole-connection-status is-demo" id="poleConnectionStatus" role="status">Demo readings</span></div>
               <div class="pole-telemetry-grid">
                 <div class="pole-reading pole-reading--battery">
                   <div class="pole-reading-heading"><span>Pole battery</span><strong id="poleBatteryValue">86%</strong></div>
@@ -43,8 +43,14 @@
                   <div class="pole-reading-heading"><span>Pole temperature</span><strong id="poleTemperatureValue">29.0 °C</strong></div>
                   <p class="pole-temperature-note" id="poleTemperatureNote">Normal operating range</p>
                 </div>
+                <div class="pole-reading">
+                  <div class="pole-reading-heading"><span>Battery voltage</span><strong id="poleBatteryVoltage">— V</strong></div>
+                </div>
+                <div class="pole-reading">
+                  <div class="pole-reading-heading"><span>Solar current</span><strong id="poleSolarCurrent">— A</strong></div>
+                </div>
               </div>
-              <p class="muted small pole-telemetry-note">Demo readings only · no pole sensors connected.</p>
+              <p class="muted small pole-telemetry-note" id="poleTelemetryNote">Demo readings only · no pole sensors connected.</p>
             </section>
             <p class="muted small">Simulated service · no real phone or charging hardware is controlled.</p>
           </section>
@@ -96,6 +102,7 @@
     </template>
     <script src="js/stations.js"></script>
     <script src="js/phone.js"></script>
+    <script src="js/pole-api.js"></script>
     <script src="js/energy-bg.js" defer></script>
   </body>
 </html>
