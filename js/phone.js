@@ -87,6 +87,8 @@ function updatePhonePrice() {
 
 // Simulated smart-pole telemetry for the phone charging service only.
 function updatePoleTelemetry(elapsedSeconds = 0) {
+  // Keep the n8n sensor values on screen while the live connection is healthy.
+  if (window.VoltGoPole?.isLive) return;
   const isWireless = requestedPhoneService.type === "wireless";
   const elapsedMinutes = Math.max(0, elapsedSeconds) / 60;
   const batteryUsePerMinute = isWireless ? 0.1 : 0.07;
