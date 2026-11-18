@@ -654,12 +654,13 @@ button, .btn, .chip, .seg { touch-action: manipulation; -webkit-tap-highlight-co
 .phone-port-check { margin-left: auto; color: var(--cyan); opacity: 0; }
 .phone-port.selected .phone-port-check { opacity: 1; }
 .phone-package-list { grid-template-columns: repeat(3,1fr); }
-.phone-package { display: block; text-align: center; padding: 12px 6px; }
+.phone-package { display: block; min-height: 112px; text-align: center; padding: 12px 8px; }
 .phone-package strong { display: block; font-size: 1.15rem; }
 .phone-package strong small { font-size: .72rem; color: var(--ink-soft); }
 .phone-package span { display: block; margin-top: 4px; color: var(--cyan); font-weight: 700; font-size: .85rem; }
 .phone-price { margin: 14px 0; }
-.phone-footnote { margin: 8px 0 14px; }
+.phone-setup-purchase > .btn { margin-top: 12px; }
+.phone-footnote { margin: 9px 0 14px; }
 .phone-session-state { margin-bottom: 14px; padding: 9px 12px; border-radius: 8px; background: var(--off-soft); color: var(--ink-soft); }
 .phone-session-state.is-charging { background: var(--green-soft); color: var(--ok-text); }
 .phone-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
@@ -704,7 +705,8 @@ button, .btn, .chip, .seg { touch-action: manipulation; -webkit-tap-highlight-co
   .pole-telemetry-heading { margin-bottom: 7px; }
   .pole-reading { padding: 8px; }
   .pole-telemetry-note { margin-top: 6px; }
-  .phone-port, .phone-package { min-height: 42px; padding: 5px 10px; }
+  .phone-port { min-height: 42px; padding: 5px 10px; }
+  .phone-package { min-height: 100px; padding: 9px 8px; }
   .phone-price { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 8px 0; border: 0; }
   .phone-price.summary-list > div, .phone-price.summary-list > div + div { align-items: center; padding: 6px 8px; border: 1px solid var(--line); border-radius: 8px; font-size: .84rem; }
   .phone-setup-purchase .btn { min-height: 40px; padding: 8px 10px; }
