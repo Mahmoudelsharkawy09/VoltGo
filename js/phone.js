@@ -7,6 +7,8 @@ let selectedPackage = null;
 let selectedPort = null;
 let phoneTimer = null;
 let phoneStartedAt = null;
+let phoneElapsedSeconds = 0;
+let phonePaused = false;
 
 function initPhonePage() {
   if (!requestedPhoneService) {
@@ -26,7 +28,8 @@ function initPhonePage() {
   updatePoleTelemetry();
   $phone("phonePay").addEventListener("click", payForPhoneSession);
   $phone("phoneStart").addEventListener("click", startPhoneSession);
-  $phone("phoneStop").addEventListener("click", () => endPhoneSession("Session stopped by customer."));
+  $phone("phoneStop").addEventListener("click", pausePhoneSession);
+  $phone("phoneResume").addEventListener("click", resumePhoneSession);
   window.addEventListener("pagehide", () => window.clearInterval(phoneTimer));
 }
 
@@ -119,6 +122,8 @@ function payForPhoneSession() {
 
 function startPhoneSession() {
   if (!selectedPackage || phoneTimer) return;
+  phoneElapsedSeconds = 0;
+  phonePaused = false;
   phoneStartedAt = Date.now();
   const totalSeconds = selectedPackage.minutes * 60;
   $phone("phoneSetup").hidden = true;
@@ -127,6 +132,8 @@ function startPhoneSession() {
   $phone("phoneSessionState").classList.add("is-charging");
   $phone("phonePulse").hidden = false;
   $phone("phoneStop").disabled = false;
+  $phone("phoneStop").hidden = false;
+  $phone("phoneResume").hidden = true;
   $phone("phoneSessionNote").textContent = "Live session timer · demo service, no hardware control.";
   updatePhoneTimer(totalSeconds);
   phoneTimer = window.setInterval(() => {
@@ -135,7 +142,8 @@ function startPhoneSession() {
 }
 
 function updatePhoneTimer(totalSeconds) {
-  const elapsed = Math.min(totalSeconds, Math.floor((Date.now() - phoneStartedAt) / 1000));
+  const activeSeconds = phoneStartedAt ? Math.floor((Date.now() - phoneStartedAt) / 1000) : 0;
+  const elapsed = Math.min(totalSeconds, phoneElapsedSeconds + activeSeconds);
   const minutes = Math.floor(elapsed / 60);
   const seconds = elapsed % 60;
   $phone("phoneElapsed").textContent = String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
@@ -145,9 +153,13 @@ function updatePhoneTimer(totalSeconds) {
 }
 
 function endPhoneSession(message) {
-  if (!phoneStartedAt) return;
+  if (!phoneStartedAt && !phonePaused) return;
   const purchasedSeconds = selectedPackage ? selectedPackage.minutes * 60 : Infinity;
-  const elapsed = Math.min(purchasedSeconds, Math.floor((Date.now() - phoneStartedAt) / 1000));
+  const activeSeconds = phoneStartedAt ? Math.floor((Date.now() - phoneStartedAt) / 1000) : 0;
+  const elapsed = Math.min(purchasedSeconds, phoneElapsedSeconds + activeSeconds);
+  phoneElapsedSeconds = elapsed;
+  phoneStartedAt = null;
+  phonePaused = false;
   updatePoleTelemetry(elapsed);
   window.clearInterval(phoneTimer);
   phoneTimer = null;
@@ -155,7 +167,42 @@ function endPhoneSession(message) {
   $phone("phoneSessionState").classList.remove("is-charging");
   $phone("phonePulse").hidden = true;
   $phone("phoneStop").disabled = true;
+  $phone("phoneStop").hidden = true;
+  $phone("phoneResume").hidden = true;
   $phone("phoneSessionNote").textContent = message;
+}
+
+function pausePhoneSession() {
+  if (!phoneStartedAt) return;
+  phoneElapsedSeconds += Math.floor((Date.now() - phoneStartedAt) / 1000);
+  phoneStartedAt = null;
+  phonePaused = true;
+  window.clearInterval(phoneTimer);
+  phoneTimer = null;
+  $phone("phoneSessionState").textContent = "Charging paused · " + selectedPort;
+  $phone("phoneSessionState").classList.remove("is-charging");
+  $phone("phonePulse").hidden = true;
+  $phone("phoneStop").hidden = true;
+  $phone("phoneResume").hidden = false;
+  $phone("phoneSessionNote").textContent = "Session paused. Resume to continue the remaining purchased time.";
+  updatePhoneTimer(selectedPackage.minutes * 60);
+}
+
+function resumePhoneSession() {
+  if (!phonePaused || phoneTimer || !selectedPackage) return;
+  phonePaused = false;
+  phoneStartedAt = Date.now();
+  const totalSeconds = selectedPackage.minutes * 60;
+  $phone("phoneSessionState").textContent = "Charging · " + selectedPort;
+  $phone("phoneSessionState").classList.add("is-charging");
+  $phone("phonePulse").hidden = false;
+  $phone("phoneStop").hidden = false;
+  $phone("phoneResume").hidden = true;
+  $phone("phoneSessionNote").textContent = "Charging resumed · simulated session.";
+  phoneTimer = window.setInterval(() => {
+    if (updatePhoneTimer(totalSeconds)) endPhoneSession("Purchased time reached. Session complete.");
+  }, 1000);
+  updatePhoneTimer(totalSeconds);
 }
 
 initPhonePage();

@@ -429,7 +429,7 @@ $("cameraToggle").addEventListener("click", async () => {
     video.srcObject = null;
     video.hidden = true;
     $("camera").classList.remove("is-live");
-    $("cameraMessage").textContent = "Night illustration · camera preview off";
+    $("cameraMessage").textContent = "Station illustration · camera preview off";
     button.textContent = "Turn on camera preview";
     help.textContent =
       "Camera stays off until you allow access in your browser.";
