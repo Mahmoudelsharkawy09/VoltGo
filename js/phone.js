@@ -79,8 +79,6 @@ function renderPackages(item) {
 function updatePhonePrice() {
   if (!selectedPackage) return;
   const price = phonePrices.format(selectedPackage.price);
-  $phone("phoneTimeChoice").textContent = selectedPackage.minutes + " min";
-  $phone("phonePrice").textContent = price + " EGP";
   $phone("phoneLimit").textContent = selectedPackage.minutes + " min";
   $phone("phonePay").textContent = "Pay " + price + " EGP (simulated)";
 }
