@@ -1188,8 +1188,9 @@ button, .btn, .chip, .seg { touch-action: manipulation; -webkit-tap-highlight-co
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 30px;
   flex-shrink: 0;
+  line-height: 0.8;
 }
 .team-member-details h3 {
   font-size: 1.02rem;
